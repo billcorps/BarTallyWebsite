@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#173e35" />
+    <link rel="icon" type="image/png" href="%BASE_URL%images/app-icon.png" />
+    <noscript>
+      <style>
+        .menu-toggle,
+        .preview-tabs,
+        .unit-switch,
+        .period-buttons {
+          display: none !important;
+        }
+        @media (max-width: 650px) {
+          .site-header {
+            height: auto !important;
+            position: static !important;
+          }
+          .header-inner {
+            flex-wrap: wrap;
+            padding-block: 20px;
+          }
+          .site-nav {
+            display: flex !important;
+            position: static !important;
+            flex-direction: row !important;
+            flex-wrap: wrap;
+            width: 100%;
+            padding: 0 !important;
+            box-shadow: none !important;
+            border: 0 !important;
+            gap: 12px 20px !important;
+          }
+          .site-nav .nav-cta {
+            display: none !important;
+          }
+        }
+      </style>
+    </noscript>
+    <!--head-tags-->
+  </head>
+  <body>
+    <div id="root"><!--app-html--></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
