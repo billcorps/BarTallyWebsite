@@ -566,7 +566,7 @@ const appViews = [
     image: "01-home.png",
     title: "Your regular drink. The right price.",
     text: "Filter favorites by pub and choose a saved price. Each +1 uses that selection and place, so you do not have to enter them again for every drink.",
-    alt: "Favorites filtered by pub with Regular, Happy hour, and Phillies game price options.",
+    alt: "Favorites filtered by pub with Regular, Happy hour, and Game day price options.",
   },
   {
     id: "search",
@@ -733,7 +733,7 @@ const questions = [
   ],
   [
     "Can I save different prices for the same drink?",
-    "Yes. Add any named prices to a favorite: Regular, Happy hour, Phillies game, or your own labels. Enter the final amount for each option, then select the one that applies on Home. That choice is reused for repeat +1 taps. Prices do not switch automatically with times or game schedules, and discounts do not stack automatically. A widget always uses the favorite's saved default price and place.",
+    "Yes. Add any named prices to a favorite: Regular, Happy hour, Game day, or your own labels. Enter the final amount for each option, then select the one that applies on Home. That choice is reused for repeat +1 taps. Prices do not switch automatically with times or game schedules, and discounts do not stack automatically. A widget always uses the favorite's saved default price and place.",
   ],
   [
     "Can I keep different favorites for different pubs?",
@@ -833,7 +833,7 @@ function AppPage() {
           {[
             ["Regular", "$6.00"],
             ["Happy hour", "$3.00"],
-            ["Phillies game", "$5.00"],
+            ["Game day", "$5.00"],
           ].map(([label, price]) => (
             <div className="receipt-row" key={label}>
               <span>{label}</span>

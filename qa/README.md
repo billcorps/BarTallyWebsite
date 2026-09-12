@@ -1,22 +1,23 @@
 # Website verification
 
-Verified locally September 12, 2026 after refreshing catalog, favorite-price, place-filter, and widget copy. These checks cover the local production preview at `/BarTallyWebsite/`, not a hosted deployment.
+Verified locally September 12, 2026 after refreshing catalog, favorite-price, place-filter, and widget copy. The latest update makes the saved-price example generic: Game day. These checks cover the local production preview at `/BarTallyWebsite/`, not a hosted deployment.
 
 ## Checks
 
 - `npm run build`: TypeScript, client bundle, and five prerendered HTML pages passed. Build smoke checks validated 122 local links/assets, metadata, canonical paths, and section anchors.
 - `npm run format:check`: passed.
-- `npm run test:e2e`: all 36 desktop Chromium and emulated Pixel 7 checks passed in 17.2 seconds after the final screenshot and caption updates.
+- Earlier full verification: `npm run test:e2e` passed all 36 desktop Chromium and emulated Pixel 7 checks in 17.2 seconds before the generic-label update.
+- After the generic-label update, build and formatting checks passed again. `npm run test:e2e -- --grep "app preview|FAQ opens"` passed all four desktop/mobile checks in 6.6 seconds, covering both regional screenshot sets and FAQ interaction.
 - The browser suite covers direct loads and refreshes, keyboard navigation, both regional galleries (including Save your order), spending examples, privacy links, reduced motion, and content without JavaScript. All four content pages fit 320, 390, 768, 1024, and 1440 pixel widths without horizontal scrolling.
 - No serious or critical Axe findings, JavaScript/hydration errors, broken local images/fonts, or unsolicited third-party requests were reported by the suite. This is targeted automated coverage, not a full accessibility certification.
 - All 16 regional screenshot files match the Android repository's regional originals byte for byte. All eight default Play screenshots match the US originals. Each regional set now has three 720 x 1600 captures (Home, Search, favorite editor) and five 1080 x 2400 captures (History and insights).
 - Both repositories passed `git diff --check`. The Android About/privacy wording was also updated and `:app:compileDebugKotlin` passed.
 
-The six newly captured Android screens show actual UI without ads. Home demonstrates manual Regular / Happy hour / Phillies game selection at the fictional The Corner Bar; Search shows craft beer results with unknown calories identified; the favorite editor shows the serving, saved place, and introduction to named prices. Price fields continue below that editor viewport. The other ten regional images retain the previously reviewed History and insights screens.
+The six newly captured Android screens show actual UI without ads. Home demonstrates manual Regular / Happy hour / Game day selection at the fictional The Corner Bar; Search shows craft beer results with unknown calories identified; the favorite editor shows the serving, saved place, and introduction to named prices. Price fields continue below that editor viewport. The other ten regional images retain the previously reviewed History and insights screens.
 
 ## Visual review
 
-All four website pages were recaptured at 1440px and 390px after loading their fonts and images. The new named-price section was visually checked at both widths, along with the metric favorite-editor gallery on mobile and the refreshed desktop hero. Text, amounts, and controls are readable, including the complete mobile example-price note. Examples are explicitly fictional; no automatic discount, game schedule, or complete nutrition coverage is advertised.
+All four website pages were captured at 1440px and 390px after loading their fonts and images. Home and App were recaptured after the generic-label update, including both hero views, named-price examples, and metric favorite-editor galleries. The Game day label was visually checked in the desktop/mobile price examples, mobile metric editor, and desktop hero. Text, amounts, and controls are readable, including the complete mobile example-price note. Insights and Privacy retain their earlier reviewed captures. Examples are explicitly fictional; no automatic discount, game schedule, or complete nutrition coverage is advertised.
 
 | Page | Desktop | Mobile |
 | --- | --- | --- |
