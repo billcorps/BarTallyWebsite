@@ -1,53 +1,47 @@
 # Website verification
 
-Verified locally on September 11, 2026 after moving the website into the standalone public BarTallyWebsite repository. The website source, images, tests, and Pages workflow are independent of the Android checkout. The checks below were performed locally before the move was committed or pushed; they do not verify a hosted deployment.
+Verified locally September 12, 2026 after refreshing catalog, favorite-price, place-filter, and widget copy. These checks cover the local production preview at `/BarTallyWebsite/`, not a hosted deployment.
 
 ## Checks
 
-- Production build: TypeScript and prerendering passed. Five HTML documents are generated: home, app, insights, privacy, and 404.
-- Build smoke checks: 121 local links and assets passed for the default draft configuration; 113 passed with the migrated Play Store URL, including page metadata, canonical URLs, section anchors, and bundled fonts.
-- Playwright: 36 checks passed in 20.9 seconds at `/BarTallyWebsite/` with the migrated Play Store URL across desktop Chromium and an emulated Pixel 7 viewport. These cover page loading and refresh, `index.html` aliases, screenshot loading, navigation, keyboard controls, unit switches, the actual spending screen in both regional sets, period-based drink/spending examples and price coverage, FAQ expansion, and privacy contents links.
-- Responsive checks: all four content pages fit 320, 390, 768, 1024, and 1440 pixel widths without horizontal scrolling.
-- Accessibility: no serious or critical Axe findings on any content page at either browser profile. Keyboard focus, Escape behavior, the skip link, reduced motion, and readable navigation/content with JavaScript disabled were checked separately. This is an automated check and targeted review, not a full accessibility certification.
-- Browser checks reported no JavaScript/hydration errors or unsolicited third-party network requests. Fonts, scripts, and images are served with the site.
-- Prettier formatting passed. The root `.gitattributes` keeps text files at LF across Windows and Linux.
-- `npm run check:publish` passed using the existing public `VITE_PLAY_STORE_URL` copied from BarTally into BarTallyWebsite. The new build metadata and canonical links point to `https://billcorps.github.io/BarTallyWebsite/`. This validates the configured URL format, not availability of the external Play listing or its support contact.
-- All 16 regional screenshot files match the website copies byte for byte; all 8 default store screenshots match the US originals. Each set contains a 720 × 1600 home image and seven 1080 × 2400 images. The eighth image is now `08-spending.png`.
+- `npm run build`: TypeScript, client bundle, and five prerendered HTML pages passed. Build smoke checks validated 122 local links/assets, metadata, canonical paths, and section anchors.
+- `npm run format:check`: passed.
+- `npm run test:e2e`: all 36 desktop Chromium and emulated Pixel 7 checks passed in 17.2 seconds after the final screenshot and caption updates.
+- The browser suite covers direct loads and refreshes, keyboard navigation, both regional galleries (including Save your order), spending examples, privacy links, reduced motion, and content without JavaScript. All four content pages fit 320, 390, 768, 1024, and 1440 pixel widths without horizontal scrolling.
+- No serious or critical Axe findings, JavaScript/hydration errors, broken local images/fonts, or unsolicited third-party requests were reported by the suite. This is targeted automated coverage, not a full accessibility certification.
+- All 16 regional screenshot files match the Android repository's regional originals byte for byte. All eight default Play screenshots match the US originals. Each regional set now has three 720 x 1600 captures (Home, Search, favorite editor) and five 1080 x 2400 captures (History and insights).
+- Both repositories passed `git diff --check`. The Android About/privacy wording was also updated and `:app:compileDebugKotlin` passed.
 
-The browser tests use Chromium with device emulation; they do not claim coverage of physical phones, Safari, or Firefox. GitHub's hosted deployment still needs a check after publication.
+The six newly captured Android screens show actual UI without ads. Home demonstrates manual Regular / Happy hour / Phillies game selection at the fictional The Corner Bar; Search shows craft beer results with unknown calories identified; the favorite editor shows the serving, saved place, and introduction to named prices. Price fields continue below that editor viewport. The other ten regional images retain the previously reviewed History and insights screens.
 
 ## Visual review
 
-Full-page captures include all lazy-loaded app images. Desktop captures use 1440 pixels; mobile captures use 390 pixels. All four pages were visually reviewed at both sizes after the app screenshot refresh. The captures were refreshed again from the standalone repository after extraction, with the configured Play Store links. The desktop and mobile home captures were reviewed again; all capture runs confirmed images loaded and pages fit their viewports. The direct headlines, updated app gallery, interactive spending summary, receipt-style cost breakdown, and privacy text remain readable without overlapping content. The shared feature graphic and website social card were also regenerated from the editable SVG and visually checked.
+All four website pages were recaptured at 1440px and 390px after loading their fonts and images. The new named-price section was visually checked at both widths, along with the metric favorite-editor gallery on mobile and the refreshed desktop hero. Text, amounts, and controls are readable, including the complete mobile example-price note. Examples are explicitly fictional; no automatic discount, game schedule, or complete nutrition coverage is advertised.
 
-| Page           | Desktop                           | Mobile                           |
-| -------------- | --------------------------------- | -------------------------------- |
-| Home           | [Full page](home-desktop.png)     | [Full page](home-mobile.png)     |
-| App overview   | [Full page](app-desktop.png)      | [Full page](app-mobile.png)      |
-| Insights       | [Full page](insights-desktop.png) | [Full page](insights-mobile.png) |
-| Privacy policy | [Full page](privacy-desktop.png)  | [Full page](privacy-mobile.png)  |
+| Page | Desktop | Mobile |
+| --- | --- | --- |
+| Home | [Full page](home-desktop.png) | [Full page](home-mobile.png) |
+| App overview | [Full page](app-desktop.png) | [Full page](app-mobile.png) |
+| Insights | [Full page](insights-desktop.png) | [Full page](insights-mobile.png) |
+| Privacy | [Full page](privacy-desktop.png) | [Full page](privacy-mobile.png) |
+| Named prices | [Section](favorite-prices-desktop.png) | [Section](favorite-prices-mobile.png) |
+| Metric favorite editor | [Gallery](favorite-editor-metric-desktop.png) | [Gallery](favorite-editor-metric-mobile.png) |
 
-The [desktop hero](home-hero.png) and [mobile hero](mobile-hero.png) show the initial viewport. These images document the local preview; they are not included in the published website.
+The [desktop hero](home-hero.png) and [mobile hero](mobile-hero.png) show the initial viewport. Review captures are not included in the published site. Chromium uses device emulation; physical phones, Safari, and Firefox were not tested.
 
-## Reproduce
+## Publication and reproduction
 
-From the root of the `BarTallyWebsite` repository:
+This verification used the local draft configuration: William Haggerty is the developer; no direct support email or live Play listing URL was supplied to the local build. The site therefore retains its upcoming-release messaging and draft metadata. No publish, commit, push, or Play Console upload was performed. Existing repository Actions variables were not changed.
+
+The September 11 repository move previously validated the publish configuration using the migrated public Play URL. That does not verify the current external listing or its private App support contact. Check the deployed privacy page and contact route before release; the publishing gate and configuration requirements are unchanged. See [website setup](../README.md).
+
+To reproduce the current checks:
 
 ```powershell
-npm ci
 npm run format:check
 npm run build
-npx playwright install chromium
 npm run test:e2e
 npm run preview
 ```
 
-Open `http://127.0.0.1:4173/BarTallyWebsite/` for the default configuration. The test runner starts a preview server automatically when one is not already running.
-
-## Publication inputs
-
-The public developer name is William Haggerty. No direct website email is configured. The existing `VITE_PLAY_STORE_URL` repository variable was copied from **BarTally** to **BarTallyWebsite**, so Actions builds use the same Play listing/contact route. The local default remains a draft unless the variable is supplied in the environment or an ignored `.env.local` file. For this verification, the migrated public value was supplied to the build and publish check. The website directs general feedback to Google Play reviews and private privacy questions to the listing's App support; verify the actual listing and contact before publishing. No live Play service check was performed by this migration.
-
-Google Play itself still requires a valid support email before app publication. Verify the private contact under App support before relying on the listing as the website's privacy contact route. [Google Play support requirements](https://support.google.com/googleplay/android-developer/answer/113477?hl=en-EN).
-
-See [website setup](../README.md) for repository variables and the GitHub Pages workflow.
+Open `http://127.0.0.1:4173/BarTallyWebsite/`. The test runner can start its own preview server. For a clean checkout, install dependencies and the Playwright Chromium browser as described in the README first.

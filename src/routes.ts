@@ -11,7 +11,7 @@ export const pages = [
     path: "/app/",
     title: "Meet the app — BarTally",
     description:
-      "Log drinks, set servings, and add optional prices and places. Search offline, edit your history, and log favorites from free home-screen widgets.",
+      "Search 7,900+ drinks offline. Save favorite servings, pubs, and named prices. Log with one tap, track spending, and use free home-screen widgets.",
   },
   {
     id: "insights",

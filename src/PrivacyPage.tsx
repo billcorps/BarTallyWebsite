@@ -39,7 +39,7 @@ export function PrivacyPage({
           each part uses, and the choices you have.
         </p>
         <p className="policy-date">
-          Last updated <time dateTime="2026-09-11">September 11, 2026</time>
+          Last updated <time dateTime="2026-09-12">September 12, 2026</time>
           {name ? <> · {name}</> : null}
         </p>
         {!contactReady && (
@@ -72,11 +72,11 @@ export function PrivacyPage({
             <p>
               BarTally keeps logged drinks, times, counts, serving sizes,
               nutrition values, optional prices and currencies, notes, custom
-              drinks, favorites, and optional locations in a private database on
-              your device. Locations can include a name you enter, a selected
-              map pin, a device position you request, and a saved place
-              identifier. History may also contain location fields from older
-              app versions.
+              drinks, favorites with named prices and a saved default, and
+              optional locations in a private database on your device. Locations
+              can include a name you enter, a selected map pin, a device
+              position you request, and a saved place identifier. History may
+              also contain location fields from older app versions.
             </p>
             <p>
               Preferences, including your choice of US fluid ounces or
@@ -89,6 +89,12 @@ export function PrivacyPage({
               to financial accounts, import bank transactions, or collect
               payment-card details for spending tracking. A missing price is
               kept separate from a recorded zero price.
+            </p>
+            <p>
+              Favorites can save a serving, a place, and multiple named prices.
+              Each log keeps the selected details. Editing a favorite or
+              updating the separate built-in catalog does not rewrite previous
+              entries.
             </p>
           </section>
 
@@ -137,8 +143,9 @@ export function PrivacyPage({
             <p>
               Your requested position helps center the map and sort your own
               saved places by distance. Nearby suggestions come from those saved
-              places. A location is attached to a drink only when you confirm
-              the drink or history edit.
+              places. You can attach a place when confirming a drink or editing
+              history, or save it with a favorite. Quick logs from that favorite
+              reuse the saved place without requesting a new device position.
             </p>
             <p>
               Google Maps supplies map content when you open an available map.
@@ -156,8 +163,9 @@ export function PrivacyPage({
             </p>
             <p>
               Revoke location access in Android Settings. To remove a location
-              from history, edit its drink entry. Forgetting a saved place
-              removes its shortcut but keeps locations already attached to
+              from history, edit its drink entry. To stop a favorite reusing a
+              place, clear it in Edit favorite. Forgetting a saved place removes
+              its shortcut but keeps locations attached to favorites and
               historical entries.
             </p>
           </section>
@@ -233,16 +241,18 @@ export function PrivacyPage({
             <h2 id="privacy-widgets-title">06. Home-screen widgets</h2>
             <p>
               Widgets are optional and free. A widget displays its selected
-              favorite, serving size, today’s logged count, and brief logging or
-              undo status. Anyone who can view your home screen can see that
+              favorite and can display its serving, saved default price, saved
+              place, logged count, and brief logging or undo status, depending
+              on its size. Anyone who can view your home screen can see that
               information. Widget configuration and pending action state stay in
               private app storage and are excluded from app backup.
             </p>
             <p>
               Tapping <strong>+1</strong> records the selected favorite at the
-              current time without requesting location or opening the full app.
-              Widget entries do not include a price or location. You can add
-              either later by editing the entry in History.
+              current time with its saved default price and place, when present.
+              This does not request your current location or open the full app.
+              A temporary price choice on Home does not change the widget
+              default. You can edit the recorded details later in History.
             </p>
           </section>
 
@@ -255,10 +265,11 @@ export function PrivacyPage({
             <p>
               Android may back up or transfer BarTally’s database according to
               your device, operating system, and account settings. This can
-              include drink history, recorded prices and currencies, saved
-              places, and legacy location fields. The operating system and its
-              backup provider handle these copies; the BarTally developer does
-              not receive them.
+              include drink history, recorded prices and currencies, custom
+              drinks, favorites with named prices and saved places, and legacy
+              location fields. The replaceable built-in catalog is excluded. The
+              operating system and its backup provider handle these copies; the
+              BarTally developer does not receive them.
             </p>
             <p>
               Manage backup preferences and retained backups through Android and

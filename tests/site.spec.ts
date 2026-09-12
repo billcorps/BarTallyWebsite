@@ -146,7 +146,7 @@ test('app preview supports keyboard navigation and both regional screenshot sets
   await expect(favorite).toBeFocused();
   await page.keyboard.press('ArrowLeft');
   await expect(tabs.getByRole('tab', { name: /Drink history/ })).toBeFocused();
-  await tabs.getByRole('tab', { name: /Serving & price/ }).click();
+  await tabs.getByRole('tab', { name: /Save your order/ }).click();
   await expect(panel.locator('img')).toHaveAttribute('src', imagePath(baseURL, 'metric/03-serving.png'));
   await units.getByRole('button', { name: 'US fl oz' }).click();
   await expect(panel.locator('img')).toHaveAttribute('src', imagePath(baseURL, 'us/03-serving.png'));

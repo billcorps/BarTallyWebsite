@@ -290,8 +290,8 @@ function Phone({
       <img
         src={asset(image)}
         alt={alt}
-        width={image.includes("01-home") ? 720 : 1080}
-        height={image.includes("01-home") ? 1600 : 2400}
+        width={/0[123]-/.test(image) ? 720 : 1080}
+        height={/0[123]-/.test(image) ? 1600 : 2400}
         loading={eager ? "eager" : "lazy"}
         fetchPriority={eager ? "high" : "auto"}
         decoding="async"
@@ -393,7 +393,7 @@ function HomePage() {
           />
           <Phone
             image="us/01-home.png"
-            alt="BarTally home screen with favorite drinks, US fluid-ounce servings, and a quick logging button."
+            alt="BarTally favorites filtered by pub, with US fluid-ounce servings, named prices, and quick logging."
             className="hero-phone-front"
             eager
           />
@@ -442,8 +442,8 @@ function HomePage() {
               icon: "glass" as const,
               number: "01",
               title: "Log a drink in seconds.",
-              text: "Find a familiar drink, choose your serving, and log it. Save your favorites for next time.",
-              link: "/app/#logging",
+              text: "Save your usual serving, pub, and prices. Choose the price that applies, then tap +1 for each drink.",
+              link: "/app/#favorites",
               label: "See drink logging",
             },
             {
@@ -564,25 +564,25 @@ const appViews = [
     id: "favorites",
     label: "Your favorites",
     image: "01-home.png",
-    title: "Quick access to your regular drinks.",
-    text: "Save the drinks you come back to. Your next entry is just a tap away.",
-    alt: "Favorite drinks with serving sizes and quick logging controls.",
+    title: "Your regular drink. The right price.",
+    text: "Filter favorites by pub and choose a saved price. Each +1 uses that selection and place, so you do not have to enter them again for every drink.",
+    alt: "Favorites filtered by pub with Regular, Happy hour, and Phillies game price options.",
   },
   {
     id: "search",
     label: "Find a drink",
     image: "02-search.png",
     title: "Find a drink or add your own.",
-    text: "Search an offline catalog of common drinks, generic styles, and house cocktail recipes.",
-    alt: "Offline drink catalog showing serving sizes, ABV, and calories.",
+    text: "Search 7,900+ catalog entries, including American craft beers, common drinks, generic styles, and house cocktail recipes. ABV and calories are shown where known; missing values stay marked.",
+    alt: "Offline drink search with craft beer results and available serving and nutrition details.",
   },
   {
     id: "serving",
-    label: "Serving & price",
+    label: "Save your order",
     image: "03-serving.png",
-    title: "Set the serving. Add the price.",
-    text: "Choose a preset or enter your pour. Add an optional price per drink and currency. Calories and alcohol estimates follow the serving; the price is what you paid.",
-    alt: "Serving selection with volume presets, nutrition information, optional price, and location.",
+    title: "Save the serving, pub, and prices.",
+    text: "Choose your usual pour and optional place, then add any named prices below. Set a default for quick logs and widgets. Saving a favorite does not log a drink.",
+    alt: "Favorite editor showing a serving, The Corner Bar as the saved place, and the introduction to saved prices.",
   },
   {
     id: "spending",
@@ -729,7 +729,15 @@ const questions = [
   ],
   [
     "What if my drink is not in the catalog?",
-    "Add a custom drink. You can enter a serving, ABV, and calories when you know them, or leave those details unknown. Missing values stay separate from known nutrition totals.",
+    "Add a custom drink. Enter a serving, ABV, and calories when you know them, or leave those details unknown. The built-in catalog is separate from your custom drinks, favorites, and history. App updates can add or correct catalog entries without rewriting what you previously logged.",
+  ],
+  [
+    "Can I save different prices for the same drink?",
+    "Yes. Add any named prices to a favorite: Regular, Happy hour, Phillies game, or your own labels. Enter the final amount for each option, then select the one that applies on Home. That choice is reused for repeat +1 taps. Prices do not switch automatically with times or game schedules, and discounts do not stack automatically. A widget always uses the favorite's saved default price and place.",
+  ],
+  [
+    "Can I keep different favorites for different pubs?",
+    "Yes. Save the same beer at different places with their own servings and prices. Filter Home to a saved place to see your drinks there. Saving a favorite does not log a drink. You can edit its defaults later without changing past entries or spending.",
   ],
   [
     "Do I have to share my location?",
@@ -769,11 +777,11 @@ function AppPage() {
           {[
             [
               "Find your drink",
-              "Search the offline catalog or add a custom drink. Save favorites for faster logging next time.",
+              "Search 7,900+ catalog entries or add a custom drink. Choose serving starts a log; Add to favorites saves your usual order.",
             ],
             [
               "Set serving and price",
-              "Use US fluid ounces or milliliters. Enter a price per drink and currency, or leave the price blank. A place is optional too.",
+              "Use US fluid ounces or milliliters. Enter a price and optional place, or reuse the details saved in a favorite.",
             ],
             [
               "Save the entry",
@@ -788,6 +796,57 @@ function AppPage() {
           ))}
         </div>
       </section>
+      <section id="favorites" className="places-section section-shell">
+        <div>
+          <span className="eyebrow">02 / SAVE YOUR USUAL ORDER</span>
+          <h2>
+            Same drink.
+            <br />
+            <em>Different prices.</em>
+          </h2>
+          <p>
+            Save your serving, pub, and any prices you use. Regular price, happy
+            hour, a game-day deal: give each one a name and enter the final
+            amount.
+          </p>
+          <p>
+            At the pub, filter to your drinks there and choose a price once.
+            Each +1 reuses that price and place. Edit your saved prices whenever
+            they change; past spending keeps the amount you actually logged.
+          </p>
+          <a className="text-link" href="#preview">
+            See saved favorites <Icon name="arrow" size={18} />
+          </a>
+        </div>
+        <div
+          className="spending-receipt"
+          role="group"
+          aria-label="Example named prices for one favorite"
+        >
+          <div className="receipt-heading">
+            <Icon name="wallet" size={26} />
+            <span className="eyebrow">ONE FAVORITE / EXAMPLE PRICES</span>
+          </div>
+          <h3>Your usual draft</h3>
+          <p className="receipt-label">The Corner Bar · USD per drink</p>
+          <div className="receipt-divider" />
+          {[
+            ["Regular", "$6.00"],
+            ["Happy hour", "$3.00"],
+            ["Phillies game", "$5.00"],
+          ].map(([label, price]) => (
+            <div className="receipt-row" key={label}>
+              <span>{label}</span>
+              <strong>{price}</strong>
+            </div>
+          ))}
+          <div className="receipt-divider" />
+          <p className="receipt-note">
+            Your labels. Your amounts. Select a price manually in the app. These
+            are fictional examples, not venue offers or automatic discounts.
+          </p>
+        </div>
+      </section>
       <section className="widget-section">
         <div className="section-shell widget-inner">
           <div className="widget-demo-stage">
@@ -798,13 +857,15 @@ function AppPage() {
               <div className="widget-demo-brand">
                 BARTALLY <Icon name="grid" size={18} />
               </div>
-              <h3>House red wine</h3>
-              <p>5 US fl oz per tap</p>
+              <h3>Your usual draft</h3>
+              <p>16 US fl oz per tap</p>
               <span className="widget-demo-count">
-                Tap to log the saved serving.
+                Regular · USD 6.00
+                <br />
+                The Corner Bar
               </span>
               <div className="widget-demo-action">
-                <Icon name="plus" /> Log drink
+                <Icon name="plus" /> 1
               </div>
             </div>
             <span className="demo-caption">
@@ -812,7 +873,7 @@ function AppPage() {
             </span>
           </div>
           <div>
-            <span className="eyebrow">02 / LOG FROM YOUR HOME SCREEN</span>
+            <span className="eyebrow">03 / LOG FROM YOUR HOME SCREEN</span>
             <h2>
               One tap.
               <br />
@@ -820,7 +881,8 @@ function AppPage() {
             </h2>
             <p>
               Add a free home-screen widget for a favorite drink. Tap +1 to log
-              its saved serving without opening the full app.
+              its saved serving, default price, and place without opening the
+              full app.
             </p>
             <ul className="check-list">
               <li>
@@ -834,15 +896,16 @@ function AppPage() {
               </li>
             </ul>
             <p className="small-print">
-              Widget entries leave the price and location blank. Add either
-              later in History.
+              Widgets use the saved default, even if you select another price on
+              Home. Change that default in Edit favorite or correct a logged
+              entry in History. Unsaved prices and places remain blank.
             </p>
           </div>
         </div>
       </section>
       <section id="places" className="places-section section-shell">
         <div>
-          <span className="eyebrow">03 / OPTIONAL LOCATION TRACKING</span>
+          <span className="eyebrow">04 / OPTIONAL PLACES</span>
           <h2>
             Track where
             <br />
@@ -850,7 +913,9 @@ function AppPage() {
           </h2>
           <p>
             Name a spot yourself, select a Google Maps pin, or use your position
-            to find nearby places you’ve saved. Location sharing is optional.
+            to find nearby places you’ve saved. Save it with a favorite for
+            future logs, and filter Home to your drinks at that pub. A location
+            is always optional.
           </p>
           <p>
             Entries without a location still count toward drink and spending
@@ -1084,6 +1149,9 @@ function InsightsPage() {
           <ul className="check-list">
             <li>
               <Icon name="check" /> Add a price now or edit it later in History
+            </li>
+            <li>
+              <Icon name="check" /> Reuse named prices from your favorites
             </li>
             <li>
               <Icon name="check" /> Blank means unknown; zero means free

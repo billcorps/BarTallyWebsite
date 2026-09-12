@@ -8,6 +8,8 @@ The voice is direct: **Track your drinks. Track your spending.** Pages explain h
 
 ## Local development
 
+The app overview also explains favorites with saved servings, places, and arbitrary named prices. Users select an exact amount manually; there are no automatic happy-hour schedules or stacked discounts. Home repeats the selected price and place, while widgets use the saved default. The built-in catalog contains 7,900+ entries and remains separate from custom drinks and recorded history. ABV and calories are not available for every entry. The privacy policy includes saved favorite details and their possible display on widgets.
+
 Use Node.js 24 LTS (Node 22.12 or later is also supported).
 
 ```powershell
