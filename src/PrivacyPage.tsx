@@ -7,7 +7,7 @@ type PrivacyPageProps = {
 const sections = [
   ["privacy-data", "Your app data"],
   ["privacy-developer", "What the developer receives"],
-  ["privacy-location", "Optional locations"],
+  ["privacy-location", "Optional places"],
   ["privacy-advertising", "Ads and your choices"],
   ["privacy-purchases", "Ad-removal purchases"],
   ["privacy-widgets", "Home-screen widgets"],
@@ -34,12 +34,12 @@ export function PrivacyPage({
         <p className="eyebrow">Your information, explained</p>
         <h1>Privacy policy.</h1>
         <p>
-          Your drink journal is stored on your device. Maps, advertising,
-          purchases, and website hosting involve other services. Here is what
-          each part uses, and the choices you have.
+          Your drink journal and saved places are stored on your device.
+          Advertising, purchases, and website hosting involve other services.
+          Here is what each part uses, and the choices you have.
         </p>
         <p className="policy-date">
-          Last updated <time dateTime="2026-09-12">September 12, 2026</time>
+          Last updated <time dateTime="2026-09-13">September 13, 2026</time>
           {name ? <> · {name}</> : null}
         </p>
         {!contactReady && (
@@ -73,10 +73,10 @@ export function PrivacyPage({
               BarTally keeps logged drinks, times, counts, serving sizes,
               nutrition values, optional prices and currencies, notes, custom
               drinks, favorites with named prices and a saved default, and
-              optional locations in a private database on your device. Locations
-              can include a name you enter, a selected map pin, a device
-              position you request, and a saved place identifier. History may
-              also contain location fields from older app versions.
+              optional place names in a private database on your device. You
+              create and reuse your own named places. Older or imported records
+              may also contain legacy location fields, which remain part of
+              those records.
             </p>
             <p>
               Preferences, including your choice of US fluid ounces or
@@ -132,41 +132,27 @@ export function PrivacyPage({
             id="privacy-location"
             aria-labelledby="privacy-location-title"
           >
-            <h2 id="privacy-location-title">03. Optional locations</h2>
+            <h2 id="privacy-location-title">03. Optional places</h2>
             <p>
-              Adding a place is optional. You can enter a place name without
-              granting location permission. BarTally requests foreground
-              location access when you choose <strong>Use my position</strong>;
-              approximate access is supported. It does not track your location
-              in the background.
+              Add a place name when saving or editing a favorite, then reuse it
+              with other drinks. Place names are stored locally and work
+              offline. BarTally does not request location permission, access
+              GPS, or use Google Maps or Google Places. It does not send your
+              named places to a map or venue-search service.
             </p>
             <p>
-              Your requested position helps center the map and sort your own
-              saved places by distance. Nearby suggestions come from those saved
-              places. You can attach a place when confirming a drink or editing
-              history, or save it with a favorite. Quick logs from that favorite
-              reuse the saved place without requesting a new device position.
+              Save a place with a favorite for future app and widget logs, or
+              choose or clear a place for an individual app entry. Filter Home
+              by a saved place to find your favorites there. Each drink keeps
+              the place recorded with it; later changes to favorites do not
+              change past entries.
             </p>
             <p>
-              Google Maps supplies map content when you open an available map.
-              Google receives service requests and technical information, which
-              can include the area viewed and device or service diagnostics. Map
-              use is covered by the{" "}
-              <a href="https://maps.google.com/help/terms_maps/">
-                Google Maps and Google Earth Additional Terms
-              </a>{" "}
-              and{" "}
-              <a href="https://policies.google.com/privacy">
-                Google’s Privacy Policy
-              </a>
-              .
-            </p>
-            <p>
-              Revoke location access in Android Settings. To remove a location
-              from history, edit its drink entry. To stop a favorite reusing a
-              place, clear it in Edit favorite. Forgetting a saved place removes
-              its shortcut but keeps locations attached to favorites and
-              historical entries.
+              To remove a place from history, edit its drink entry. To stop a
+              favorite reusing a place, clear it in Edit favorite. Forgetting a
+              saved place removes its shortcut but keeps places attached to
+              favorites and historical entries. Older or imported records may
+              retain legacy location details.
             </p>
           </section>
 
@@ -240,19 +226,21 @@ export function PrivacyPage({
           >
             <h2 id="privacy-widgets-title">06. Home-screen widgets</h2>
             <p>
-              Widgets are optional and free. A widget displays its selected
-              favorite and can display its serving, saved default price, saved
-              place, logged count, and brief logging or undo status, depending
-              on its size. Anyone who can view your home screen can see that
-              information. Widget configuration and pending action state stay in
-              private app storage and are excluded from app backup.
+              Widgets are optional and free. Quick-log widgets display the
+              selected favorite and can show its serving, saved default price,
+              and saved place. Counter widgets show drink or standard-drink
+              totals for a chosen period. A brief logging confirmation can show
+              the place and rolling 24-hour standard-drink total. Anyone who can
+              view your home screen can see this information. Widget
+              configuration and pending action state stay in private app storage
+              and are excluded from app backup.
             </p>
             <p>
               Tapping <strong>+1</strong> records the selected favorite at the
-              current time with its saved default price and place, when present.
-              This does not request your current location or open the full app.
-              A temporary price choice on Home does not change the widget
-              default. You can edit the recorded details later in History.
+              current time with its saved serving, default price, and place.
+              Logging from a widget does not open the full app. Temporary
+              serving and price choices on Home do not change widget defaults.
+              You can edit the recorded details later in History.
             </p>
           </section>
 
@@ -294,7 +282,7 @@ export function PrivacyPage({
               System backups may remain separately and may restore data on a
               later installation. Manage or delete those copies through Android
               or your backup provider. Clearing app storage does not erase
-              records held separately by Google for ads, maps, or payments.
+              records held separately by Google for ads or payments.
             </p>
           </section>
 

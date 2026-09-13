@@ -442,7 +442,7 @@ function HomePage() {
               icon: "glass" as const,
               number: "01",
               title: "Log a drink in seconds.",
-              text: "Save your usual serving, pub, and prices. Choose the price that applies, then tap +1 for each drink.",
+              text: "Save your usual serving, pub, and prices. Choose the pour and price that apply, then tap +1 for each drink.",
               link: "/app/#favorites",
               label: "See drink logging",
             },
@@ -532,8 +532,8 @@ function HomePage() {
             <Icon name="shield" size={28} />
             <h3>No account. Your device.</h3>
             <p>
-              Your journal and insights live on your device. Optional Google
-              services for maps and ads have their own data practices.
+              Your journal and insights live on your device. Google services for
+              ads and purchases have their own data practices.
             </p>
             <a href={href("/privacy/")} className="text-link">
               Read the privacy policy
@@ -565,7 +565,7 @@ const appViews = [
     label: "Your favorites",
     image: "01-home.png",
     title: "Your regular drink. The right price.",
-    text: "Filter favorites by pub and choose a saved price. Each +1 uses that selection and place, so you do not have to enter them again for every drink.",
+    text: "Filter favorites by saved place, choose a serving and saved price on Home, then tap +1. Each drink uses the place saved with that favorite.",
     alt: "Favorites filtered by pub with Regular, Happy hour, and Game day price options.",
   },
   {
@@ -596,8 +596,8 @@ const appViews = [
     id: "history",
     label: "Drink history",
     image: "04-history.png",
-    title: "Update a past entry anytime.",
-    text: "Review your drinks, add a missing price, or correct a serving, time, or place. Spending totals update with your edits.",
+    title: "Add or edit past drinks.",
+    text: "Add a past drink from a favorite with your chosen count, date, time, price, and place. Review entries or correct their details anytime.",
     alt: "Drink history with serving details, recorded prices, and nutrition values.",
   },
 ] as const;
@@ -717,7 +717,7 @@ const questions = [
   ],
   [
     "Does it work without an internet connection?",
-    "Logging, the drink catalog, saved places, and insights work offline. Google Maps, ads, and Google Play purchase checks use internet services.",
+    "Logging, the drink catalog, saved places, and insights work offline. Ads and Google Play purchase checks use internet services.",
   ],
   [
     "Can I use milliliters instead of ounces?",
@@ -729,19 +729,19 @@ const questions = [
   ],
   [
     "What if my drink is not in the catalog?",
-    "Add a custom drink. Enter a serving, ABV, and calories when you know them, or leave those details unknown. The built-in catalog is separate from your custom drinks, favorites, and history. App updates can add or correct catalog entries without rewriting what you previously logged.",
+    "Choose Add custom drink on Search. Enter a serving, ABV, and calories when you know them, or leave those details unknown. Saving makes the drink searchable; use Log or Add favorite separately. The built-in catalog is separate from your custom drinks, favorites, and history. App updates can add or correct catalog entries without rewriting what you previously logged.",
   ],
   [
     "Can I save different prices for the same drink?",
-    "Yes. Add any named prices to a favorite: Regular, Happy hour, Game day, or your own labels. Enter the final amount for each option, then select the one that applies on Home. That choice is reused for repeat +1 taps. Prices do not switch automatically with times or game schedules, and discounts do not stack automatically. A widget always uses the favorite's saved default price and place.",
+    "Yes. Add any named prices to a favorite: Regular, Happy hour, Game day, or your own labels. Enter the final amount for each option, then select the one that applies on Home. That choice is reused for repeat +1 taps. Prices do not switch automatically with times or game schedules, and discounts do not stack automatically. A widget uses the favorite's saved serving, default price, and place.",
   ],
   [
     "Can I keep different favorites for different pubs?",
-    "Yes. Save the same beer at different places with their own servings and prices. Filter Home to a saved place to see your drinks there. Saving a favorite does not log a drink. You can edit its defaults later without changing past entries or spending.",
+    "Yes. Name a place when saving or editing a favorite, then reuse it for other drinks. Save the same beer at different places with their own servings and prices, and filter Home to a saved place. You can also choose a different serving on Home, such as 12 or 16 US fl oz, without editing the favorite. Saving or editing a favorite does not log a drink or change past entries.",
   ],
   [
     "Do I have to share my location?",
-    "No. Locations are optional. You can type a place name, choose a map pin, or explicitly use your device position. There is no background location tracking.",
+    "No. BarTally does not request location permission or use GPS. Places are optional names you enter when saving or editing a favorite and reuse from your own saved list. They work offline.",
   ],
   [
     "Are the calorie and alcohol values exact?",
@@ -810,9 +810,10 @@ function AppPage() {
             amount.
           </p>
           <p>
-            At the pub, filter to your drinks there and choose a price once.
-            Each +1 reuses that price and place. Edit your saved prices whenever
-            they change; past spending keeps the amount you actually logged.
+            Choose a serving and price on Home, then tap +1 for each drink.
+            Switch between a 12 and 16 US fl oz pour without editing your
+            favorite. Filter Home by saved place to find your drinks there. Past
+            entries keep the details you actually logged.
           </p>
           <a className="text-link" href="#preview">
             See saved favorites <Icon name="arrow" size={18} />
@@ -882,7 +883,8 @@ function AppPage() {
             <p>
               Add a free home-screen widget for a favorite drink. Tap +1 to log
               its saved serving, default price, and place without opening the
-              full app.
+              full app. A brief confirmation shows your updated 24-hour
+              standard-drink count.
             </p>
             <ul className="check-list">
               <li>
@@ -892,13 +894,14 @@ function AppPage() {
                 <Icon name="check" /> Undo an accidental tap for 10 minutes
               </li>
               <li>
-                <Icon name="check" /> Your preferred serving units
+                <Icon name="check" /> A compact counter for your chosen period
               </li>
             </ul>
             <p className="small-print">
-              Widgets use the saved default, even if you select another price on
-              Home. Change that default in Edit favorite or correct a logged
-              entry in History. Unsaved prices and places remain blank.
+              Temporary serving and price choices on Home do not change widget
+              defaults. Edit the favorite to change those defaults, or correct a
+              logged entry in History. Counter widgets can show drinks or US
+              standard drinks for today, the last 24 hours, 7 days, or 30 days.
             </p>
           </div>
         </div>
@@ -912,14 +915,16 @@ function AppPage() {
             <em>you drink.</em>
           </h2>
           <p>
-            Name a spot yourself, select a Google Maps pin, or use your position
-            to find nearby places you’ve saved. Save it with a favorite for
-            future logs, and filter Home to your drinks at that pub. A location
-            is always optional.
+            Name a place when saving or editing a favorite, then reuse it for
+            other drinks. Save it with a favorite for future app and widget
+            logs, and filter Home to your drinks at that place. Your place list
+            works offline and needs no location permission.
           </p>
           <p>
-            Entries without a location still count toward drink and spending
-            totals. Location comparisons show how many entries are tagged.
+            Location is optional, and you can change or clear it for an
+            individual app log. Entries without a location still count toward
+            drink and spending totals. Location comparisons show how many
+            entries are tagged.
           </p>
           <a className="text-link" href={href("/insights/#places-insights")}>
             See how place insights work <Icon name="arrow" size={18} />
