@@ -1,6 +1,6 @@
 # BarTally website
 
-The standalone React and TypeScript marketing site for [BarTally](https://github.com/billcorps/BarTally), hosted from [BarTallyWebsite](https://github.com/billcorps/BarTallyWebsite) on GitHub Pages. The landing page, app overview, insights overview, and privacy policy are rendered to complete HTML at build time. Each route works as a direct link, including with JavaScript disabled; React adds the interactive controls when available.
+The standalone React and TypeScript marketing site for [BarTally](https://github.com/billcorps/BarTally), hosted from [BarTallyWebsite](https://github.com/billcorps/BarTallyWebsite) on GitHub Pages. The landing page, app overview, insights overview, beta signup page, and privacy policy are rendered to complete HTML at build time. Each route works as a direct link, including with JavaScript disabled; React adds the interactive controls when available.
 
 The site uses the real app screenshots in `public/images`, with no ads in the promotional images. Fonts are bundled locally. It has no analytics SDK, ad SDK, account system, or form backend.
 
@@ -44,11 +44,11 @@ Copy `.env.example` to `.env.local` for local values. Values prefixed with `VITE
 | `VITE_PLAY_STORE_URL` | Live Google Play app listing URL                         | Empty; the site shows the upcoming release state         |
 | `VITE_SOCIAL_IMAGE`   | Absolute HTTPS social preview image URL                  | Site URL + `images/social-card.png`                      |
 
-The public developer is **William Haggerty**. A direct website email is optional. The planned feedback route is the live Google Play listing: public reviews for general feedback and **App support** for private privacy questions. Keep `VITE_PLAY_STORE_URL` blank until that listing is actually live and its App support contact works; local builds validate the URL format and package name; the separate publishing check also verifies that the public listing responds successfully and identifies BarTally. The site truthfully shows the upcoming release state in the meantime.
+The public developer is **William Haggerty**. A direct website email is optional. The planned feedback route is the live Google Play listing: public reviews for general feedback and **App support** for private privacy questions. Keep `VITE_PLAY_STORE_URL` blank until that listing is actually live and its App support contact works; local builds validate the URL format and package name; the separate publishing check also verifies that the public listing responds successfully and identifies BarTally. The site shows the closed beta invitation in the meantime.
 
-Builds remain available while the contact route is pending. Those draft builds contain `noindex` metadata. `npm run check:publish` allows the coming-soon website to publish without a support email or a live Play listing. It keeps the preview privacy policy and `noindex` metadata until a contact route is configured. Any configured Play link must pass a public HTTP check with a ten-second timeout; the deployment workflow runs it before uploading a publishable artifact. Before using the Play route, verify that App support provides a monitored private contact for privacy questions. Review the policy against the shipped Android configuration too.
+Builds remain available while the contact route is pending. Those draft builds contain `noindex` metadata. `npm run check:publish` allows the beta website to publish without a support email or a live Play listing. It keeps the preview privacy policy and `noindex` metadata until a contact route is configured. Any configured Play link must pass a public HTTP check with a ten-second timeout; the deployment workflow runs it before uploading a publishable artifact. Before using the Play route, verify that App support provides a monitored private contact for privacy questions. Review the policy against the shipped Android configuration too.
 
-**Release check, September 14, 2026:** the public BarTally listing currently returns HTTP 404. The privacy page is reachable, but its Play App support route cannot yet be used publicly. The workflow now ignores `VITE_PLAY_STORE_URL` unless the repository variable `VITE_PLAY_STORE_LIVE` is explicitly set to `true`, so the coming-soon website can deploy while the app is unavailable. Once the listing is live, set that flag to enable the link and its availability check.
+**Release check, September 14, 2026:** the public BarTally listing currently returns HTTP 404. The privacy page is reachable, but its Play App support route cannot yet be used publicly. The workflow now ignores `VITE_PLAY_STORE_URL` unless the repository variable `VITE_PLAY_STORE_LIVE` is explicitly set to `true`, so the beta website can deploy while the app is unavailable. Once the listing is live, set that flag to enable the link and its availability check.
 
 Google Play itself still requires a valid support email on the app listing, even when this website does not display one directly. Public reviews do not replace that requirement. Configure it in Play Console before the app is released. [Google Play support requirements](https://support.google.com/googleplay/android-developer/answer/113477?hl=en-EN).
 
@@ -57,7 +57,7 @@ For a custom domain, set `VITE_BASE_PATH=/` and `VITE_SITE_URL=https://your-doma
 ## Publish with GitHub Pages
 
 1. In the **BarTallyWebsite** repository, open **Settings → Pages** and choose **GitHub Actions** as the publishing source.
-2. In this same repository, open **Settings → Secrets and variables → Actions → Variables** and leave `VITE_PLAY_STORE_LIVE` unset to publish the coming-soon website; no support email is required. After the listing is publicly available and its App support contact works, configure `VITE_PLAY_STORE_URL` and set `VITE_PLAY_STORE_LIVE=true`. Set `VITE_SUPPORT_EMAIL` only if a direct website contact is desired. William Haggerty is already the default developer name. Add other variables only when overriding their defaults.
+2. In this same repository, open **Settings → Secrets and variables → Actions → Variables** and leave `VITE_PLAY_STORE_LIVE` unset to publish the beta website; no support email is required. After the listing is publicly available and its App support contact works, configure `VITE_PLAY_STORE_URL` and set `VITE_PLAY_STORE_LIVE=true`. Set `VITE_SUPPORT_EMAIL` only if a direct website contact is desired. William Haggerty is already the default developer name. Add other variables only when overriding their defaults.
 3. Merge the website changes into `main`, or run the **Website** workflow manually from the repository's default branch. Pull requests build and validate the site without deploying it.
 
 The default Pages URL and path already match this repository; do not copy an old `/BarTally/` override. Repository settings do not transfer automatically. During the September 11, 2026 move, the existing public `VITE_PLAY_STORE_URL` value was copied into **BarTallyWebsite**. Pages must use **GitHub Actions** as its source in this repository.
@@ -84,3 +84,11 @@ Implementation follows the official [Vite static deployment guide](https://vite.
 ## Refreshing app screenshots
 
 The app and screenshot tools remain in the [BarTally repository](https://github.com/billcorps/BarTally). Copy reviewed US screenshots from its `product_materials/regions/us/` into this repository's `public/images/us/`, and the international metric set into `public/images/metric/`. Copy updated social artwork to `public/images/social-card.png`. The website has no build-time dependency on the Android checkout.
+
+## Closed beta enrollment
+
+Share **https://billcorps.github.io/BarTallyWebsite/beta/** after deploying this change. The header, home-page action, footer, and closing actions lead to the signup page while the public Play listing is not enabled.
+
+The three public URLs are stored together in `site-defaults.json` under `beta`: the BarTally Testers Google Group, the closed-test opt-in page, and the Android install listing. They are deliberately separate from `VITE_PLAY_STORE_URL`, which still means the public production listing. Do not set `VITE_PLAY_STORE_LIVE=true` just to recruit closed testers. No additional Actions variables are needed for the beta links.
+
+Testers join the group first, opt in to the closed test second, then install using the same Google account. The page explains the 14-day commitment, Android 11+ requirement, private Play feedback, fictional test entries, and troubleshooting for internal testers. External steps open in new tabs; the site does not collect email addresses or claim to verify enrollment. Verify the three steps with an eligible Google account before sharing widely; automated website checks do not enroll a tester.

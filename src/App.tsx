@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { asset, href, siteConfig } from "./config";
 import { PrivacyPage } from "./PrivacyPage";
+import { BetaPage } from "./BetaPage";
 import type { PageId } from "./routes";
 
 type IconName =
@@ -184,9 +185,12 @@ function Header({ page }: { page: PageId }) {
           ))}
           <a
             className="nav-cta"
-            href={siteConfig.playStoreUrl || href("/app/#preview")}
+            href={siteConfig.playStoreUrl || href("/beta/")}
+            aria-current={
+              page === "beta" && !siteConfig.playStoreUrl ? "page" : undefined
+            }
           >
-            {siteConfig.playStoreUrl ? "Get BarTally" : "Take a look"}
+            {siteConfig.playStoreUrl ? "Get BarTally" : "Join the beta"}
             <Icon name="diagonal" size={17} />
           </a>
         </nav>
@@ -211,6 +215,7 @@ function Footer() {
           <span className="eyebrow">EXPLORE BARTALLY</span>
           <a href={href("/app/")}>Meet the app</a>
           <a href={href("/insights/")}>Explore the insights</a>
+          <a href={href("/beta/")}>Join the beta</a>
           <a href={href("/privacy/")}>Privacy policy</a>
         </div>
         <div className="footer-note">
@@ -227,7 +232,14 @@ function Footer() {
               Get in touch <Icon name="diagonal" size={16} />
             </a>
           )}
-          <a className="text-link" href={href("/privacy/#privacy-contact")}>
+          <a
+            className="text-link"
+            href={
+              siteConfig.playStoreUrl
+                ? href("/privacy/#privacy-contact")
+                : href("/beta/#feedback")
+            }
+          >
             Report a bug
           </a>
         </div>
@@ -269,7 +281,7 @@ function Availability({ light = false }: { light?: boolean }) {
     </a>
   ) : (
     <span className={`availability ${light ? "availability-light" : ""}`}>
-      <span className="status-dot" /> Coming to Android
+      <span className="status-dot" /> Android beta · Android 11+
     </span>
   );
 }
@@ -339,8 +351,8 @@ function ClosingNote() {
           <p>Cutting back or keeping track. Start with the numbers.</p>
         </div>
         <div className="closing-actions">
-          <ButtonLink to={siteConfig.playStoreUrl || href("/app/")}>
-            {siteConfig.playStoreUrl ? "Get BarTally" : "See the app"}
+          <ButtonLink to={siteConfig.playStoreUrl || href("/beta/")}>
+            {siteConfig.playStoreUrl ? "Get BarTally" : "Join the beta"}
           </ButtonLink>
           <Availability />
           <span className="small-print">
@@ -376,7 +388,9 @@ function HomePage() {
             in one place.
           </p>
           <div className="hero-actions">
-            <ButtonLink to={href("/app/")}>Explore BarTally</ButtonLink>
+            <ButtonLink to={siteConfig.playStoreUrl || href("/beta/")}>
+              {siteConfig.playStoreUrl ? "Get BarTally" : "Join the beta"}
+            </ButtonLink>
             <Availability />
           </div>
           <a href="#overview" className="scroll-cue">
@@ -1366,6 +1380,8 @@ export function App({ page }: { page: PageId }) {
           <AppPage />
         ) : page === "insights" ? (
           <InsightsPage />
+        ) : page === "beta" ? (
+          <BetaPage />
         ) : page === "privacy" ? (
           <PrivacyPage
             developerName={siteConfig.developerName}

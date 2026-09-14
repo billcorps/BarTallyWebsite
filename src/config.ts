@@ -1,6 +1,7 @@
 import defaults from "../site-defaults.json";
 
 export const siteConfig = {
+  beta: defaults.beta,
   developerName:
     (import.meta.env.VITE_DEVELOPER_NAME ?? "").trim() ||
     defaults.developerName,

@@ -21,6 +21,13 @@ export const pages = [
       "Track drinks and spending by calendar day, week, or month. Compare habits, nutrition, and places, with missing details and separate currencies clearly shown.",
   },
   {
+    id: "beta",
+    path: "/beta/",
+    title: "Join the Android beta — BarTally",
+    description:
+      "Help test BarTally for Android. Join the tester group, opt into the closed test, and install the app. Free to test, with honest feedback over 14 days.",
+  },
+  {
     id: "privacy",
     path: "/privacy/",
     title: "Privacy policy — BarTally",
@@ -50,6 +57,6 @@ export function getPage(pathname: string, base = "/") {
   path = path.replace(/\/index\.html$/, "/").replace(/\/+$/, "") || "/";
   return (
     pages.find((page) => (page.path.replace(/\/+$/, "") || "/") === path) ??
-    pages[4]
+    pages.find((page) => page.id === "not-found")!
   );
 }

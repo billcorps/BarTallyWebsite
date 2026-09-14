@@ -6,7 +6,14 @@ const root = resolve("dist");
 const report = JSON.parse(
   await readFile(resolve(root, "site-build.json"), "utf8"),
 );
-const expectedPaths = ["/", "/app/", "/insights/", "/privacy/", "/404.html"];
+const expectedPaths = [
+  "/",
+  "/app/",
+  "/insights/",
+  "/beta/",
+  "/privacy/",
+  "/404.html",
+];
 assert.deepEqual(
   report.pages.map((page) => page.path).sort(),
   expectedPaths.sort(),

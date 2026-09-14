@@ -319,8 +319,12 @@ export function PrivacyPage({
               .
             </p>
             <p>
-              Links to Google Play and other external sites take you to services
-              with their own privacy policies when you choose to follow them.
+              Beta enrollment happens on Google Groups and Google Play, using
+              your Google account. This website does not collect your email or
+              track your enrollment. Group membership and anything you post are
+              handled by Google Groups; avoid including personal drink history
+              in group posts. These external services have their own privacy
+              policies.
             </p>
           </section>
 
@@ -362,9 +366,11 @@ export function PrivacyPage({
                 </>
               ) : (
                 <>
-                  Once BarTally launches, you can leave feedback in a review on
-                  its Google Play listing. The link will be added here when the
-                  listing is available.
+                  During the closed test, enrolled testers can open BarTally in
+                  the Play Store and send private testing feedback. Include what
+                  happened, your app version, and Android version. General
+                  questions can also be posted in the tester group. After the
+                  public release, reviews will be available on Google Play.
                 </>
               )}{" "}
               Reviews are public, so please leave out personal information.

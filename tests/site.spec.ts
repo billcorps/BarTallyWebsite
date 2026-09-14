@@ -35,6 +35,7 @@ const routes = [
   { path: './', heading: /Your drinks\.\s*Your tab\.\s*Tracked\./, title: /BarTally/ },
   { path: 'app/', heading: /Log what you drink\./, title: /Meet the app/ },
   { path: 'insights/', heading: /The drinks\.\s*The costs\.\s*The patterns\./, title: /BarTally insights/ },
+  { path: 'beta/', heading: /Help get BarTally ready\./, title: /BarTally/ },
   { path: 'privacy/', heading: /Privacy policy\./, title: /Privacy policy/ },
 ];
 
@@ -228,7 +229,7 @@ test('privacy contents links reach every section and explain bug reports and pri
   if (await note.count()) {
     await expect(note).toContainText('a private contact route will be available before the app launches');
     await expect(contact).toContainText('A private contact route for privacy questions is not available yet.');
-    await expect(contact).toContainText('Once BarTally launches');
+    await expect(contact).toContainText('During the closed test');
   } else if (await contact.locator('a[href^="mailto:"]').count()) {
     await expect(contact.locator('a[href^="mailto:"]')).toBeVisible();
   } else {
@@ -237,23 +238,81 @@ test('privacy contents links reach every section and explain bug reports and pri
     await expect(contact).toContainText('Please use that private contact route for personal information.');
   }
 
+  const hasPublicListing = await contact.getByRole('link', { name: 'BarTally on Google Play', exact: true }).count() > 0;
+  if (!hasPublicListing) {
+    await expect(contact).toContainText('send private testing feedback');
+    await expect(contact).toContainText('After the public release, reviews will be available');
+  }
   await page.goto('./');
-  await page.getByRole('contentinfo').getByRole('link', { name: 'Report a bug', exact: true }).click();
-  await expect(page).toHaveURL(siteURL(baseURL, 'privacy/#privacy-contact').href);
-  await expect(contact.getByRole('heading')).toBeInViewport();
+  const bugReport = page.getByRole('contentinfo').getByRole('link', { name: 'Report a bug', exact: true });
+  const feedbackPath = hasPublicListing ? 'privacy/#privacy-contact' : 'beta/#feedback';
+  const feedbackURL = siteURL(baseURL, feedbackPath);
+  await expect(bugReport).toHaveAttribute('href', `${feedbackURL.pathname}${feedbackURL.hash}`);
+  await bugReport.click();
+  await expect(page).toHaveURL(feedbackURL.href);
+  const feedback = page.locator(feedbackURL.hash);
+  await expect(feedback.getByRole('heading', { level: 2 })).toBeInViewport();
+  if (!hasPublicListing) {
+    await expect(feedback).toContainText('private feedback option for testers');
+    await expect(feedback).toContainText('Leave personal details and real drink history out of group posts');
+  }
 });
 
-test('pre-launch call to action opens the app overview without an unpublished store link', async ({ page, baseURL }) => {
+test('pre-launch calls to action explain beta enrollment before opening the store', async ({ page, baseURL }) => {
   await page.goto('./');
-  const storeLinks = page.locator('a[href^="https://play.google.com/"]');
-  if (await storeLinks.count()) {
-    await expect(storeLinks.first()).toHaveAttribute('href', /id=com\.billcorp\.bartally(?:&|$)/);
-  } else {
-    await expect(page.getByText('Coming to Android', { exact: true }).first()).toBeVisible();
-    await page.getByRole('link', { name: 'Explore BarTally', exact: true }).click();
-    await expect(page).toHaveURL(siteURL(baseURL, 'app/').href);
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Log what you drink\./);
+  const hero = page.locator('.hero-copy');
+  const publicStoreLink = hero.locator('a[href^="https://play.google.com/store/apps/details"]');
+  if (await publicStoreLink.count()) {
+    await expect(publicStoreLink.first()).toHaveAttribute('href', /id=com\.billcorp\.bartally(?:&|$)/);
+    return;
   }
+  await expect(hero.locator('a[href^="https://play.google.com/"]')).toHaveCount(0);
+  const heroBetaLink = hero.getByRole('link', { name: 'Join the beta', exact: true });
+  await expect(heroBetaLink).toHaveAttribute('href', siteURL(baseURL, 'beta/').pathname);
+  await openNavigation(page);
+  const navBetaLink = page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Join the beta', exact: true });
+  await navBetaLink.click();
+  await expect(page).toHaveURL(siteURL(baseURL, 'beta/').href);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Help get BarTally ready\./);
+  await openNavigation(page);
+  await expect(navBetaLink).toHaveAttribute('aria-current', 'page');
+  await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Join the beta', exact: true })).toHaveAttribute('href', siteURL(baseURL, 'beta/').pathname);
+});
+
+test('beta enrollment links follow group, opt-in, and install order with account guidance', async ({ page }) => {
+  await page.goto('beta/');
+  const main = page.getByRole('main');
+  const actions = [
+    ['Join the Google Group', 'https://groups.google.com/g/bartallytesters'],
+    ['Join the closed test', 'https://play.google.com/apps/testing/com.billcorp.bartally'],
+    ['Install BarTally', 'https://play.google.com/store/apps/details?id=com.billcorp.bartally'],
+  ] as const;
+  for (const [name, url] of actions) {
+    const link = main.getByRole('link', { name, exact: true });
+    await expect(link).toHaveAttribute('href', url);
+    await expect(link).toHaveAttribute('target', '_blank');
+    await expect(link).toHaveAttribute('rel', /noopener/);
+    await expect(link).toHaveAttribute('rel', /noreferrer/);
+  }
+  const expectedUrls = actions.map(([, url]) => url);
+  const order = await main.getByRole('link').evaluateAll((links, expected) => links
+    .map(link => link.getAttribute('href'))
+    .filter(url => expected.includes(url ?? '')), expectedUrls);
+  expect(order).toEqual(expectedUrls);
+  await expect(main).toContainText('same Google account');
+  await expect(main).toContainText('14 consecutive days');
+  await expect(main).toContainText('Android 11');
+});
+
+test('the static 404 document keeps its own content and route after refresh', async ({ page, baseURL }) => {
+  await page.goto('404.html');
+  await expect(page).toHaveTitle(/Page not found/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Page not found\./);
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
+  await page.reload();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Page not found\./);
+  await page.getByRole('link', { name: 'Back to BarTally', exact: true }).click();
+  await expect(page).toHaveURL(siteURL(baseURL).href);
 });
 
 test('all pages fit 320, 390, 768, 1024, and 1440 pixel viewports without horizontal scrolling', async ({ page }) => {
