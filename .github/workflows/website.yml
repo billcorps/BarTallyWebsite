@@ -22,7 +22,8 @@ jobs:
       VITE_SITE_URL: ${{ vars.VITE_SITE_URL || 'https://billcorps.github.io/BarTallyWebsite/' }}
       VITE_DEVELOPER_NAME: ${{ vars.VITE_DEVELOPER_NAME }}
       VITE_SUPPORT_EMAIL: ${{ vars.VITE_SUPPORT_EMAIL }}
-      VITE_PLAY_STORE_URL: ${{ vars.VITE_PLAY_STORE_URL }}
+      # Keep the coming-soon state until the listing is explicitly marked live.
+      VITE_PLAY_STORE_URL: ${{ vars.VITE_PLAY_STORE_LIVE == 'true' && vars.VITE_PLAY_STORE_URL || '' }}
       VITE_SOCIAL_IMAGE: ${{ vars.VITE_SOCIAL_IMAGE }}
     steps:
       - uses: actions/checkout@v6

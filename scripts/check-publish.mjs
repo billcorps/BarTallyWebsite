@@ -3,8 +3,8 @@ import { verifyPublicPlayListing } from "./play-listing.mjs";
 
 const config = settings();
 if (!config.ready) {
-  throw new Error(
-    "Before publishing, configure a public developer identity and either VITE_SUPPORT_EMAIL or VITE_PLAY_STORE_URL. For the Play route, verify that the listing is live and App support offers a monitored private contact for privacy questions. Local preview builds remain available without a contact route.",
+  console.log(
+    "Publishing the coming-soon website with a preview privacy policy and noindex metadata. A public contact route is not configured yet.",
   );
 }
 if (config.playUrl) {
@@ -13,4 +13,6 @@ if (config.playUrl) {
     "The public Google Play listing is reachable. Verify that App support offers a monitored private contact before release.",
   );
 }
-console.log("Public developer identity and contact are configured.");
+if (config.ready) {
+  console.log("Public developer identity and contact are configured.");
+}
