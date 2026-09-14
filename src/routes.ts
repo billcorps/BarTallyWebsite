@@ -11,21 +11,21 @@ export const pages = [
     path: "/app/",
     title: "Meet the app — BarTally",
     description:
-      "Search 7,900+ drinks offline. Save favorite servings, pubs, and named prices. Log with one tap, track spending, and use free home-screen widgets.",
+      "Search 8,200+ drinks offline. Save servings, places, and prices. Log now or add past drinks, track spending, and use free home-screen widgets.",
   },
   {
     id: "insights",
     path: "/insights/",
     title: "Drinks, costs, and habits — BarTally insights",
     description:
-      "See drink and spending totals, daily trends, average costs, nutrition, and place comparisons. Missing prices stay visible and currencies stay separate.",
+      "Track drinks and spending by calendar day, week, or month. Compare habits, nutrition, and places, with missing details and separate currencies clearly shown.",
   },
   {
     id: "privacy",
     path: "/privacy/",
     title: "Privacy policy — BarTally",
     description:
-      "How BarTally handles your drink history, recorded prices, optional locations, Google services, purchases, widgets, and this website.",
+      "How BarTally handles your drink history, recorded prices, optional saved places, Google services, purchases, widgets, and this website.",
   },
   {
     id: "not-found",

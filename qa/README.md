@@ -1,25 +1,32 @@
 # Website verification
 
-Verified locally September 12, 2026 after refreshing catalog, favorite-price, place-filter, and widget copy. The latest update makes the saved-price example generic: Game day. These checks cover the local production preview at `/BarTallyWebsite/`, not a hosted deployment.
+Verified locally September 14, 2026 against the current BarTally app and refreshed English US and international metric promotional sets. These checks cover the local production preview at `/BarTallyWebsite/`; this work did not deploy the site or upload a Play listing.
+
+## Current content
+
+The site now describes the 8,200+ drink catalog, optional nutrition with visible gaps, favorites with saved servings/places/named prices, and History’s **Add past drinks** flow for favorites, catalog drinks, and custom drinks. Creating a custom drink adds a searchable definition without logging it. Prices remain optional, unknown amounts are separate from zero, and currencies are not converted.
+
+Metrics descriptions include Today, This week, This month, 7 days, 30 days, 90 days, and All time, with Sunday or Monday week starts and device-local calendar dates. Counter widgets include the three calendar periods and rolling 24-hour, 7-day, and 30-day periods. Quick-log copy now describes the five-second Undo. Compact examples of both widget types are explicitly labeled as illustrations. The privacy policy documents UTC timestamp storage, local display, calendar preferences, and offline named places.
 
 ## Checks
 
-- `npm run build`: TypeScript, client bundle, and five prerendered HTML pages passed. Build smoke checks validated 122 local links/assets, metadata, canonical paths, and section anchors.
 - `npm run format:check`: passed.
-- Earlier full verification: `npm run test:e2e` passed all 36 desktop Chromium and emulated Pixel 7 checks in 17.2 seconds before the generic-label update.
-- After the generic-label update, build and formatting checks passed again. `npm run test:e2e -- --grep "app preview|FAQ opens"` passed all four desktop/mobile checks in 6.6 seconds, covering both regional screenshot sets and FAQ interaction.
-- The browser suite covers direct loads and refreshes, keyboard navigation, both regional galleries (including Save your order), spending examples, privacy links, reduced motion, and content without JavaScript. All four content pages fit 320, 390, 768, 1024, and 1440 pixel widths without horizontal scrolling.
-- No serious or critical Axe findings, JavaScript/hydration errors, broken local images/fonts, or unsolicited third-party requests were reported by the suite. This is targeted automated coverage, not a full accessibility certification.
-- All 16 regional screenshot files match the Android repository's regional originals byte for byte. All eight default Play screenshots match the US originals. Each regional set now has three 720 x 1600 captures (Home, Search, favorite editor) and five 1080 x 2400 captures (History and insights).
-- Both repositories passed `git diff --check`. The Android About/privacy wording was also updated and `:app:compileDebugKotlin` passed.
+- `npm run build`: passed TypeScript, browser and server bundles, five prerendered HTML pages, and validation of 122 local links/assets, metadata, canonical paths, and section anchors.
+- Six publishing-check tests passed: reachable BarTally listing, HTTP 404/429/503, unrelated successful response, and network failure. The request has a ten-second timeout. These tests run without network access as part of the build.
+- `npm run test:e2e`: all 36 desktop Chromium and emulated Pixel 7 checks passed in 17.7 seconds with the final content and refreshed screenshot pixels. The last PNG encoding normalization preserved every decoded pixel; the production build and asset parity were checked again afterward.
+- Browser coverage includes direct routes and refreshes, keyboard navigation, both regional galleries, spending examples and missing-price coverage, privacy anchors, reduced motion, and pages without JavaScript. All four content pages fit 320, 390, 768, 1024, and 1440 pixel viewports without horizontal scrolling.
+- No serious or critical Axe findings, JavaScript/hydration errors, broken local images/fonts, or unsolicited third-party requests were reported. This is targeted automated coverage, not a full accessibility certification.
+- All 16 website screenshots match the current Android regional originals byte for byte. They are 1080 × 2400, 24-bit RGB PNGs. Home, Search, favorite editor, and nutrition have distinct US/metric versions. History, calendar overview, places, and spending use the same frames in both sets because no serving-volume text is visible in those frames.
+- `public/images/social-card.png` matches the current 1024 × 500 feature graphic with the **Know your totals.** badge. Promotional app images contain no ads.
+- `git diff --check`: passed.
 
-The six newly captured Android screens show actual UI without ads. Home demonstrates manual Regular / Happy hour / Game day selection at the fictional The Corner Bar; Search shows craft beer results with unknown calories identified; the favorite editor shows the serving, saved place, and introduction to named prices. Price fields continue below that editor viewport. The other ten regional images retain the previously reviewed History and insights screens.
+The actual app screenshots use fictional history and places. Home shows a saved pub filter, serving selector, selected Happy hour price, and quick logging. Search shows the current offline catalog and common beers. The favorite editor shows saved serving/place details and the introduction to named prices; price fields continue below that viewport. History exposes Add past drinks, while the metrics overview shows calendar choices and Sunday/Monday week starts.
 
 ## Visual review
 
-All four website pages were captured at 1440px and 390px after loading their fonts and images. Home and App were recaptured after the generic-label update, including both hero views, named-price examples, and metric favorite-editor galleries. The Game day label was visually checked in the desktop/mobile price examples, mobile metric editor, and desktop hero. Text, amounts, and controls are readable, including the complete mobile example-price note. Insights and Privacy retain their earlier reviewed captures. Examples are explicitly fictional; no automatic discount, game schedule, or complete nutrition coverage is advertised.
+All four website pages were recaptured at 1440px and 390px after loading their fonts and images. The refreshed desktop/mobile hero, metric favorite editor, compact widget examples, and calendar explanation were visually checked for readable content, coherent framing, and clipping. The focused section captures suppress the sticky site header and unfocused skip link so they do not cover the section being reviewed; full-page and hero captures retain the actual site navigation.
 
-| Page | Desktop | Mobile |
+| Page or section | Desktop | Mobile |
 | --- | --- | --- |
 | Home | [Full page](home-desktop.png) | [Full page](home-mobile.png) |
 | App overview | [Full page](app-desktop.png) | [Full page](app-mobile.png) |
@@ -27,16 +34,16 @@ All four website pages were captured at 1440px and 390px after loading their fon
 | Privacy | [Full page](privacy-desktop.png) | [Full page](privacy-mobile.png) |
 | Named prices | [Section](favorite-prices-desktop.png) | [Section](favorite-prices-mobile.png) |
 | Metric favorite editor | [Gallery](favorite-editor-metric-desktop.png) | [Gallery](favorite-editor-metric-mobile.png) |
+| Widgets | [Section](widgets-desktop.png) | [Section](widgets-mobile.png) |
+| Calendar periods | [Section](calendar-periods-desktop.png) | [Section](calendar-periods-mobile.png) |
 
 The [desktop hero](home-hero.png) and [mobile hero](mobile-hero.png) show the initial viewport. Review captures are not included in the published site. Chromium uses device emulation; physical phones, Safari, and Firefox were not tested.
 
 ## Publication and reproduction
 
-This verification used the local draft configuration: William Haggerty is the developer; no direct support email or live Play listing URL was supplied to the local build. The site therefore retains its upcoming-release messaging and draft metadata. No publish, commit, push, or Play Console upload was performed. Existing repository Actions variables were not changed.
+Local builds use William Haggerty as the developer, without a direct support email or configured live listing. They therefore show the upcoming-release state and draft metadata. No repository Actions variables were changed, and no commit, push, website deployment, or Play Console upload was performed.
 
-The September 11 repository move previously validated the publish configuration using the migrated public Play URL. That does not verify the current external listing or its private App support contact. Check the deployed privacy page and contact route before release; the publishing gate and configuration requirements are unchanged. See [website setup](../README.md).
-
-To reproduce the current checks:
+The public website and privacy page respond successfully. The public Play listing currently responds **HTTP 404**, so the existing live policy’s Play App support link cannot provide a public private-contact route yet. Running `npm run check:publish` with that Play URL correctly fails with the specific HTTP 404 reason. A configured URL alone no longer passes the publication check. Local builds remain available. Before publication, make the production listing and its private App support contact available, or configure a direct support email and remove the unavailable Play URL. No support email was invented.
 
 ```powershell
 npm run format:check
@@ -45,4 +52,4 @@ npm run test:e2e
 npm run preview
 ```
 
-Open `http://127.0.0.1:4173/BarTallyWebsite/`. The test runner can start its own preview server. For a clean checkout, install dependencies and the Playwright Chromium browser as described in the README first.
+Open `http://127.0.0.1:4173/BarTallyWebsite/`. The test runner can start its own preview server. For a clean checkout, install dependencies and Playwright Chromium as described in the [website README](../README.md).

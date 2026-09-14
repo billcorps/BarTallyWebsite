@@ -264,7 +264,7 @@ function Availability({ light = false }: { light?: boolean }) {
       className={`availability ${light ? "availability-light" : ""}`}
       href={siteConfig.playStoreUrl}
     >
-      <Icon name="android" size={18} /> Available on Google Play{" "}
+      <Icon name="android" size={18} /> View on Google Play{" "}
       <Icon name="diagonal" size={15} />
     </a>
   ) : (
@@ -290,8 +290,8 @@ function Phone({
       <img
         src={asset(image)}
         alt={alt}
-        width={/0[123]-/.test(image) ? 720 : 1080}
-        height={/0[123]-/.test(image) ? 1600 : 2400}
+        width={1080}
+        height={2400}
         loading={eager ? "eager" : "lazy"}
         fetchPriority={eager ? "high" : "auto"}
         decoding="async"
@@ -388,7 +388,7 @@ function HomePage() {
           <span className="stage-caption">YOUR TOTALS. YOUR DATA.</span>
           <Phone
             image="us/05-metrics.png"
-            alt="BarTally insights showing a 30-day overview, logging patterns, and missing calorie values."
+            alt="BarTally metrics showing calendar period choices, a Sunday or Monday week start, drink totals, and recorded spending."
             className="hero-phone-back"
           />
           <Phone
@@ -486,7 +486,7 @@ function HomePage() {
             <div className="orbit-line" aria-hidden="true" />
             <Phone
               image="us/06-nutrition.png"
-              alt="Nutrition insights show 20 of 24 drinks have values, with missing and estimated nutrition identified."
+              alt="Nutrition insights show calorie coverage, with missing and estimated nutrition identified."
             />
             <span className="image-note">MISSING VALUES STAY VISIBLE.</span>
           </div>
@@ -566,15 +566,15 @@ const appViews = [
     image: "01-home.png",
     title: "Your regular drink. The right price.",
     text: "Filter favorites by saved place, choose a serving and saved price on Home, then tap +1. Each drink uses the place saved with that favorite.",
-    alt: "Favorites filtered by pub with Regular, Happy hour, and Game day price options.",
+    alt: "Favorites filtered by pub with a serving selector, selected Happy hour price, and quick logging.",
   },
   {
     id: "search",
     label: "Find a drink",
     image: "02-search.png",
     title: "Find a drink or add your own.",
-    text: "Search 7,900+ catalog entries, including American craft beers, common drinks, generic styles, and house cocktail recipes. ABV and calories are shown where known; missing values stay marked.",
-    alt: "Offline drink search with craft beer results and available serving and nutrition details.",
+    text: "Search 8,200+ catalog entries, including American craft beers, common drinks, generic styles, and house cocktail recipes. ABV and calories are shown where known; missing values stay marked.",
+    alt: "Offline drink catalog with common beers and available serving and nutrition details.",
   },
   {
     id: "serving",
@@ -597,7 +597,7 @@ const appViews = [
     label: "Drink history",
     image: "04-history.png",
     title: "Add or edit past drinks.",
-    text: "Add a past drink from a favorite with your chosen count, date, time, price, and place. Review entries or correct their details anytime.",
+    text: "Add past drinks from your favorites or search the catalog, including your custom drinks. Set the quantity, serving, date, time, price, and place. Times display in your current local time zone.",
     alt: "Drink history with serving details, recorded prices, and nutrition values.",
   },
 ] as const;
@@ -713,7 +713,7 @@ function AppPreview() {
 const questions = [
   [
     "Is BarTally free?",
-    "Yes. Every feature is free: logging, spending, insights, locations, serving preferences, and home-screen widgets. An optional one-time purchase removes banner ads. There is no subscription.",
+    "Yes. Every feature is free: logging, spending, insights, saved places, serving preferences, and home-screen widgets. An optional one-time purchase removes banner ads. There is no subscription.",
   ],
   [
     "Does it work without an internet connection?",
@@ -729,7 +729,7 @@ const questions = [
   ],
   [
     "What if my drink is not in the catalog?",
-    "Choose Add custom drink on Search. Enter a serving, ABV, and calories when you know them, or leave those details unknown. Saving makes the drink searchable; use Log or Add favorite separately. The built-in catalog is separate from your custom drinks, favorites, and history. App updates can add or correct catalog entries without rewriting what you previously logged.",
+    "Choose Add custom drink on Search. Enter a serving, ABV, and calories when you know them, or leave those details unknown. Saving makes the drink searchable; choose a serving to log it, or use Add to favorites separately. The built-in catalog is separate from your custom drinks, favorites, and history. App updates can add or correct catalog entries without rewriting what you previously logged.",
   ],
   [
     "Can I save different prices for the same drink?",
@@ -738,6 +738,18 @@ const questions = [
   [
     "Can I keep different favorites for different pubs?",
     "Yes. Name a place when saving or editing a favorite, then reuse it for other drinks. Save the same beer at different places with their own servings and prices, and filter Home to a saved place. You can also choose a different serving on Home, such as 12 or 16 US fl oz, without editing the favorite. Saving or editing a favorite does not log a drink or change past entries.",
+  ],
+  [
+    "Can I log drinks from last night?",
+    "Yes. Open History and choose Add past drinks. Favorites appear first for quick selection, or search the full catalog and your custom drinks. Enter the number of drinks, serving, date, time, and optional price, place, or notes. For example, record four of the same draft from last night in one entry. History displays dates and times in your current device time zone.",
+  ],
+  [
+    "How do I change a widget?",
+    "Long-press the widget and choose the launcher’s edit or reconfigure option where supported. Otherwise, remove it and add it again to choose its settings. Edit a favorite in BarTally to change the serving, default price, or place used by its quick-log widgets.",
+  ],
+  [
+    "Can my totals follow the calendar week?",
+    "Yes. Metrics offers Today, This week, and This month alongside 7 days, 30 days, 90 days, and All time. Choose Sunday or Monday for the start of the week. Counter widgets also offer calendar periods, plus rolling Last 24 hours, Last 7 days, and Last 30 days. Each counter has its own period and week-start choice. Calendar totals use your device’s local time zone.",
   ],
   [
     "Do I have to share my location?",
@@ -777,7 +789,7 @@ function AppPage() {
           {[
             [
               "Find your drink",
-              "Search 7,900+ catalog entries or add a custom drink. Choose serving starts a log; Add to favorites saves your usual order.",
+              "Search 8,200+ catalog entries or create a custom drink. Log it now, save a favorite for next time, or add a past entry from History.",
             ],
             [
               "Set serving and price",
@@ -785,7 +797,7 @@ function AppPage() {
             ],
             [
               "Save the entry",
-              "Your totals update immediately. Change a detail or add a missing cost later in History.",
+              "Log one drink or enter a quantity for a past visit. Choose its date and time in History, and edit missing details later.",
             ],
           ].map(([title, text], index) => (
             <article key={title}>
@@ -852,25 +864,32 @@ function AppPage() {
         <div className="section-shell widget-inner">
           <div className="widget-demo-stage">
             <div
-              className="widget-demo"
-              aria-label="Illustrative quick-log widget"
+              className="widget-demo widget-quick-demo"
+              aria-label="Illustrative compact quick-log widget"
             >
-              <div className="widget-demo-brand">
-                BARTALLY <Icon name="grid" size={18} />
+              <div className="widget-quick-copy">
+                <h3>Your usual draft</h3>
+                <p>16 US fl oz · USD 6.00</p>
+                <span className="widget-demo-count">The Corner Bar</span>
+                <span className="widget-quick-total">
+                  1.8 US std · Last 24h
+                </span>
               </div>
-              <h3>Your usual draft</h3>
-              <p>16 US fl oz per tap</p>
-              <span className="widget-demo-count">
-                Regular · USD 6.00
-                <br />
-                The Corner Bar
-              </span>
               <div className="widget-demo-action">
                 <Icon name="plus" /> 1
               </div>
             </div>
+            <div
+              className="widget-counter-demo"
+              aria-label="Illustrative counter showing 8.4 US standard drinks this week"
+            >
+              <span>This week</span>
+              <strong>8.4</strong>
+              <span>US standard drinks</span>
+              <small>Week starts Monday</small>
+            </div>
             <span className="demo-caption">
-              Illustrative widget · choose your own favorite
+              Illustrative widgets · example totals
             </span>
           </div>
           <div>
@@ -891,17 +910,21 @@ function AppPage() {
                 <Icon name="check" /> A different favorite on every widget
               </li>
               <li>
-                <Icon name="check" /> Undo an accidental tap for 10 minutes
+                <Icon name="check" /> A five-second Undo for an accidental tap
               </li>
               <li>
-                <Icon name="check" /> A compact counter for your chosen period
+                <Icon name="check" /> Calendar or rolling totals in a compact
+                counter
               </li>
             </ul>
+            <p>
+              Use a counter for Today, This week, This month, or a rolling 24
+              hours, 7 days, or 30 days. Choose logged drinks or US standard
+              drinks, and a Sunday or Monday week start.
+            </p>
             <p className="small-print">
-              Temporary serving and price choices on Home do not change widget
-              defaults. Edit the favorite to change those defaults, or correct a
-              logged entry in History. Counter widgets can show drinks or US
-              standard drinks for today, the last 24 hours, 7 days, or 30 days.
+              Widgets use saved favorite defaults. Temporary serving and price
+              choices on Home apply only to app logging.
             </p>
           </div>
         </div>
@@ -1101,12 +1124,18 @@ function InsightsPage() {
         <SectionHeading
           number="01"
           eyebrow="MORE THAN A RUNNING TOTAL"
-          text="Choose 7 days, 30 days, 90 days, or all time. Compare your logged drinking and spending across periods."
+          text="Choose Today, This week, This month, 7 days, 30 days, 90 days, or All time. Compare your logged drinking and spending across periods."
         >
           Check the totals.
           <br />
           <em>Find the patterns.</em>
         </SectionHeading>
+        <p className="calendar-explanation">
+          Start your week on Sunday or Monday. Calendar days, weeks, and months
+          follow your device’s local time zone. The 7-, 30-, and 90-day views
+          include today and the preceding calendar dates; counter widgets also
+          offer rolling periods, such as the last 24 hours.
+        </p>
         <div className="insight-grid">
           {[
             [
@@ -1233,7 +1262,7 @@ function InsightsPage() {
               <p>
                 4 missing values stay visible. They are not counted as zero.
               </p>
-              <small>Example entries shown in the app screenshot.</small>
+              <small>Illustrative coverage example.</small>
             </div>
             <UnitSwitch metric={metric} onChange={setMetric} />
             <p className="small-print">

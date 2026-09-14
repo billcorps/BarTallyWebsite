@@ -39,7 +39,7 @@ export function PrivacyPage({
           Here is what each part uses, and the choices you have.
         </p>
         <p className="policy-date">
-          Last updated <time dateTime="2026-09-13">September 13, 2026</time>
+          Last updated <time dateTime="2026-09-14">September 14, 2026</time>
           {name ? <> · {name}</> : null}
         </p>
         {!contactReady && (
@@ -80,9 +80,15 @@ export function PrivacyPage({
             </p>
             <p>
               Preferences, including your choice of US fluid ounces or
-              milliliters, are stored locally. Catalog search, spending totals,
-              and habit calculations run on your device; none requires a
-              BarTally account.
+              milliliters and widget periods and week starts, are stored
+              locally. Catalog search, spending totals, and habit calculations
+              run on your device; none requires a BarTally account.
+            </p>
+            <p>
+              Recorded timestamps are stored as UTC instants. History displays
+              them in your current device time zone, which also determines the
+              local dates used for calendar totals. Records may retain the time
+              zone used when they were created as additional metadata.
             </p>
             <p>
               Prices are amounts you enter for drinks. BarTally does not connect
@@ -134,11 +140,11 @@ export function PrivacyPage({
           >
             <h2 id="privacy-location-title">03. Optional places</h2>
             <p>
-              Add a place name when saving or editing a favorite, then reuse it
-              with other drinks. Place names are stored locally and work
-              offline. BarTally does not request location permission, access
-              GPS, or use Google Maps or Google Places. It does not send your
-              named places to a map or venue-search service.
+              Add a place name when saving a favorite or logging a drink, then
+              reuse it with other drinks. Place names are stored locally and
+              work offline. BarTally does not request location permission,
+              access GPS, or use Google Maps or Google Places. It does not send
+              your named places to a map or venue-search service.
             </p>
             <p>
               Save a place with a favorite for future app and widget logs, or
@@ -229,11 +235,12 @@ export function PrivacyPage({
               Widgets are optional and free. Quick-log widgets display the
               selected favorite and can show its serving, saved default price,
               and saved place. Counter widgets show drink or standard-drink
-              totals for a chosen period. A brief logging confirmation can show
-              the place and rolling 24-hour standard-drink total. Anyone who can
-              view your home screen can see this information. Widget
-              configuration and pending action state stay in private app storage
-              and are excluded from app backup.
+              totals for a chosen calendar or rolling period, with Sunday or
+              Monday as the start of a calendar week. A brief logging
+              confirmation can show the place and rolling 24-hour standard-drink
+              total. Anyone who can view your home screen can see this
+              information. Widget configuration and pending action state stay in
+              private app storage and are excluded from app backup.
             </p>
             <p>
               Tapping <strong>+1</strong> records the selected favorite at the
