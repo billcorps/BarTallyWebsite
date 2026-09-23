@@ -6,11 +6,13 @@ The site uses the real app screenshots in `public/images`, with no ads in the pr
 
 The voice is direct: **Track your drinks. Track your spending.** Pages explain how adults can keep track or use their logged totals while cutting back. The insights demo updates drink counts, recorded USD spending, average price, and missing-price coverage together for 7-, 30-, and 90-day examples. These are clearly labeled examples, not data collected from a visitor. A dedicated spending section explains optional prices, free drinks, and separate currencies; the app preview includes the actual spending screen in both serving-unit sets.
 
+The app’s Backup & restore screen exports portable JSON through Android’s file picker. Restore previews and merges missing records after the user selects **Restore backup**. Current personal records with matching IDs are kept, and repeated imports do not duplicate them. Untouched built-in starter favorites can be replaced by their backup versions; edited favorites remain protected. History snapshots, custom drinks, favorites with prices and places, and saved places are included; settings, widgets, catalog data, and purchase receipts are not. The privacy policy explains that files contain readable personal data and are stored where the user chooses. No crash-reporting SDK or cloud-sync claim has been added.
+
 ## Local development
 
 The app overview also explains favorites with saved servings, places, and arbitrary named prices. Users select an exact amount manually; there are no automatic happy-hour schedules or stacked discounts. Home repeats the selected price and place, while widgets use the saved default. The built-in catalog contains 8,200+ entries and remains separate from custom drinks and recorded history. ABV and calories are not available for every entry. The privacy policy includes saved favorite details and their possible display on widgets, UTC timestamp storage, and local calendar calculations. History can backfill drinks from favorites, the catalog, or custom drinks with quantity, serving, local date/time, optional price, place, and notes. Creating a custom drink only adds its searchable definition; logging and favoriting are separate actions.
 
-Metrics includes Today, This week, This month, 7 days, 30 days, 90 days, and All time, with Sunday or Monday week starts. Counter widgets offer Today, This week, This month, Last 24 hours, Last 7 days, and Last 30 days; each counter has its own settings. The quick-log widget offers a five-second Undo. The widget artwork on the site is labeled as illustrative, and uses compact examples of both widget types. The interactive insights chart remains a clearly labeled subset of example periods.
+Metrics includes Today, This week, This month, 7 days, 30 days, 90 days, and All time, with Sunday or Monday week starts. Counter widgets offer Today, This week, This month, Last 24 hours, Last 7 days, and Last 30 days; each counter has its own settings. The quick-log widget accepts rapid +1 taps, shows Added 1 / Added 2 inline for three seconds, and offers a five-second Undo. It no longer displays system toasts or requests notification permission. Alcohol totals default to grams, with milliliters of pure alcohol and US standard drinks available in Units. The widget artwork on the site is labeled as illustrative, and uses compact examples of both widget types. The interactive insights chart remains a clearly labeled subset of example periods.
 
 Use Node.js 24 LTS (Node 22.12 or later is also supported).
 
@@ -40,15 +42,15 @@ Copy `.env.example` to `.env.local` for local values. Values prefixed with `VITE
 | `VITE_BASE_PATH`      | Site path, with leading and trailing slash               | `/BarTallyWebsite/`                                      |
 | `VITE_SITE_URL`       | Complete public HTTPS URL, including that same path      | `https://billcorps.github.io/BarTallyWebsite/`           |
 | `VITE_DEVELOPER_NAME` | Public developer or legal entity responsible for the app | William Haggerty, from `site-defaults.json`              |
-| `VITE_SUPPORT_EMAIL`  | Optional direct website support and privacy contact      | Empty; the live Play listing can provide contact instead |
+| `VITE_SUPPORT_EMAIL`  | Public website support and privacy contact               | `bartallysupport@gmail.com`, from `site-defaults.json` |
 | `VITE_PLAY_STORE_URL` | Live Google Play app listing URL                         | Empty; the site shows the upcoming release state         |
 | `VITE_SOCIAL_IMAGE`   | Absolute HTTPS social preview image URL                  | Site URL + `images/social-card.png`                      |
 
-The public developer is **William Haggerty**. A direct website email is optional. The planned feedback route is the live Google Play listing: public reviews for general feedback and **App support** for private privacy questions. Keep `VITE_PLAY_STORE_URL` blank until that listing is actually live and its App support contact works; local builds validate the URL format and package name; the separate publishing check also verifies that the public listing responds successfully and identifies BarTally. The site shows the closed beta invitation in the meantime.
+The public developer is **William Haggerty**. The checked-in support and privacy email is **bartallysupport@gmail.com**; an empty `VITE_SUPPORT_EMAIL` uses that default, including in GitHub Actions. Bug reports and privacy questions can go directly to this address. Keep `VITE_PLAY_STORE_URL` blank until the listing is publicly live; a configured listing is validated for URL shape and checked by the publish command. Closed-test enrollment remains separate.
 
-Builds remain available while the contact route is pending. Those draft builds contain `noindex` metadata. `npm run check:publish` allows the beta website to publish without a support email or a live Play listing. It keeps the preview privacy policy and `noindex` metadata until a contact route is configured. Any configured Play link must pass a public HTTP check with a ten-second timeout; the deployment workflow runs it before uploading a publishable artifact. Before using the Play route, verify that App support provides a monitored private contact for privacy questions. Review the policy against the shipped Android configuration too.
+`npm run check:publish` validates the public identity and contact configuration. The default support email makes the privacy page publishable without a public Play listing. Any configured public Play link must pass its availability check. The deployment workflow only uses the Play link after `VITE_PLAY_STORE_LIVE=true`. Review the policy against the shipped Android configuration before publication.
 
-**Release check, September 14, 2026:** the public BarTally listing currently returns HTTP 404. The privacy page is reachable, but its Play App support route cannot yet be used publicly. The workflow now ignores `VITE_PLAY_STORE_URL` unless the repository variable `VITE_PLAY_STORE_LIVE` is explicitly set to `true`, so the beta website can deploy while the app is unavailable. Once the listing is live, set that flag to enable the link and its availability check.
+**Historical release check, September 14, 2026:** the public Play listing returned HTTP 404 then. This is not a current availability check. Leave `VITE_PLAY_STORE_LIVE` unset until the production listing is verified; the beta enrollment links continue to work independently.
 
 Google Play itself still requires a valid support email on the app listing, even when this website does not display one directly. Public reviews do not replace that requirement. Configure it in Play Console before the app is released. [Google Play support requirements](https://support.google.com/googleplay/android-developer/answer/113477?hl=en-EN).
 
@@ -57,7 +59,7 @@ For a custom domain, set `VITE_BASE_PATH=/` and `VITE_SITE_URL=https://your-doma
 ## Publish with GitHub Pages
 
 1. In the **BarTallyWebsite** repository, open **Settings → Pages** and choose **GitHub Actions** as the publishing source.
-2. In this same repository, open **Settings → Secrets and variables → Actions → Variables** and leave `VITE_PLAY_STORE_LIVE` unset to publish the beta website; no support email is required. After the listing is publicly available and its App support contact works, configure `VITE_PLAY_STORE_URL` and set `VITE_PLAY_STORE_LIVE=true`. Set `VITE_SUPPORT_EMAIL` only if a direct website contact is desired. William Haggerty is already the default developer name. Add other variables only when overriding their defaults.
+2. In this same repository, open **Settings → Secrets and variables → Actions → Variables** and leave `VITE_PLAY_STORE_LIVE` unset to publish the beta website; the checked-in support email is used by default. After the listing is publicly available and its App support contact works, configure `VITE_PLAY_STORE_URL` and set `VITE_PLAY_STORE_LIVE=true`. Set `VITE_SUPPORT_EMAIL` only to override `bartallysupport@gmail.com`. William Haggerty is already the default developer name. Add other variables only when overriding their defaults.
 3. Merge the website changes into `main`, or run the **Website** workflow manually from the repository's default branch. Pull requests build and validate the site without deploying it.
 
 The default Pages URL and path already match this repository; do not copy an old `/BarTally/` override. Repository settings do not transfer automatically. During the September 11, 2026 move, the existing public `VITE_PLAY_STORE_URL` value was copied into **BarTallyWebsite**. Pages must use **GitHub Actions** as its source in this repository.
@@ -83,7 +85,14 @@ Implementation follows the official [Vite static deployment guide](https://vite.
 
 ## Refreshing app screenshots
 
-The app and screenshot tools remain in the [BarTally repository](https://github.com/billcorps/BarTally). Copy reviewed US screenshots from its `product_materials/regions/us/` into this repository's `public/images/us/`, and the international metric set into `public/images/metric/`. Copy updated social artwork to `public/images/social-card.png`. The website has no build-time dependency on the Android checkout.
+The app and screenshot tools remain in the [BarTally repository](https://github.com/billcorps/BarTally). Copy reviewed US screenshots from its `product_materials/regions/us/` into this repository's `public/images/us/`, and the international metric set into `public/images/metric/`. The website has no build-time dependency on the Android checkout.
+The header, footer and favicon all use `public/images/app-icon.png`: the shared flat navy icon with mint champagne-flute and beer-mug shapes. Colors come from `product_materials/palette.json` in the Android repository. Edit that configuration, then run this single command from the Android repository root:
+
+```powershell
+node tools/generate-palette.mjs --assets --website ../BarTallyWebsite
+```
+
+The command regenerates app colors, icon artwork, this site's `src/palette.css` and browser theme color, then copies the generated app icon and social card into `public/images`. It requires the installed Playwright/Chromium and Python/Pillow tooling and works offline. No separate icon-generation or image-copy command is needed for branding. Keep geometry edits in `product_materials/icon.svg`; the website does not independently redraw the icon. The wordmark link already names BarTally, so its accompanying icon is decorative for screen readers. CSS rounds only the website presentation tile; the source Play icon remains a full square.
 
 ## Closed beta enrollment
 
@@ -92,3 +101,15 @@ Share **https://billcorps.github.io/BarTallyWebsite/beta/** after deploying this
 The three public URLs are stored together in `site-defaults.json` under `beta`: the BarTally Testers Google Group, the closed-test opt-in page, and the Android install listing. They are deliberately separate from `VITE_PLAY_STORE_URL`, which still means the public production listing. Do not set `VITE_PLAY_STORE_LIVE=true` just to recruit closed testers. No additional Actions variables are needed for the beta links.
 
 Testers join the group first, opt in to the closed test second, then install using the same Google account. The page explains the 14-day commitment, Android 11+ requirement, private Play feedback, fictional test entries, and troubleshooting for internal testers. External steps open in new tabs; the site does not collect email addresses or claim to verify enrollment. Verify the three steps with an eligible Google account before sharing widely; automated website checks do not enroll a tester.
+
+## AdMob app-ads.txt
+
+`public/app-ads.txt` contains the public Google seller authorization for BarTally's AdMob publisher account. Vite includes it in `dist/app-ads.txt`. This is a public publisher ID, not an API key, app ID or ad-unit ID; no ad script is added to the website.
+
+**The project URL alone is insufficient.** AdMob strips `/BarTallyWebsite/` from the developer website URL and requests **https://billcorps.github.io/app-ads.txt**. That root file is hosted separately by the free public user-site repository [billcorps.github.io](https://github.com/billcorps/billcorps.github.io), using Pages from `main` and `/ (root)`. Its homepage points visitors to the existing BarTally website. Deploying this project's workflow cannot update the user-site root.
+
+Keep `public/app-ads.txt` and that repository's root `app-ads.txt` identical when the authorized publisher or ad sellers change. Keep `https://billcorps.github.io/BarTallyWebsite/` as the app's developer Website URL in Google Play; the privacy URL remains unchanged. A root-hosted custom domain could serve this project's `dist/app-ads.txt` directly.
+
+After publication, open https://billcorps.github.io/app-ads.txt and verify that it returns plain text with the publisher snippet shown in AdMob. Then use **AdMob > Apps > View all apps > app-ads.txt > expand BarTally > Check for updates**. Google says verification can take up to 24 hours; the public file being reachable does not itself prove the account's verification is complete.
+
+References: [Google's file and crawler setup](https://support.google.com/admob/answer/9363762?hl=en), [GitHub Pages user-site setup](https://docs.github.com/en/pages/quickstart).

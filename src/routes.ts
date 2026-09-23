@@ -11,7 +11,7 @@ export const pages = [
     path: "/app/",
     title: "Meet the app — BarTally",
     description:
-      "Search 8,200+ drinks offline. Save servings, places, and prices. Log now or add past drinks, track spending, and use free home-screen widgets.",
+      "Search 8,200+ drinks offline. Save servings, places, and prices. Log multiple drinks, track spending, use widgets, and back up your history to JSON.",
   },
   {
     id: "insights",
@@ -32,7 +32,7 @@ export const pages = [
     path: "/privacy/",
     title: "Privacy policy — BarTally",
     description:
-      "How BarTally handles your drink history, recorded prices, optional saved places, Google services, purchases, widgets, and this website.",
+      "How BarTally handles your drink history, recorded prices, optional saved places, Google services, purchases, widgets, JSON backups, support email, and this website.",
   },
   {
     id: "not-found",

@@ -124,6 +124,17 @@ export function BetaPage() {
           </div>
           <div className="beta-feedback-card">
             <h3>Found something that needs fixing?</h3>
+            {siteConfig.supportEmail && (
+              <p>
+                Email{" "}
+                <a href={`mailto:${siteConfig.supportEmail}`}>
+                  {siteConfig.supportEmail}
+                </a>{" "}
+                for bug reports or private support. Include what happened and
+                your app and Android versions. You do not need to send your real
+                drink history or a backup file.
+              </p>
+            )}
             <p>
               Open BarTally in the Play Store and use the private feedback
               option for testers. Tell me what you tried, what you expected, and

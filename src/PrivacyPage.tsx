@@ -39,7 +39,7 @@ export function PrivacyPage({
           Here is what each part uses, and the choices you have.
         </p>
         <p className="policy-date">
-          Last updated <time dateTime="2026-09-14">September 14, 2026</time>
+          Last updated <time dateTime="2026-09-22">September 22, 2026</time>
           {name ? <> · {name}</> : null}
         </p>
         {!contactReady && (
@@ -80,9 +80,10 @@ export function PrivacyPage({
             </p>
             <p>
               Preferences, including your choice of US fluid ounces or
-              milliliters and widget periods and week starts, are stored
-              locally. Catalog search, spending totals, and habit calculations
-              run on your device; none requires a BarTally account.
+              milliliters, alcohol units (grams, milliliters of pure alcohol, or
+              US standard drinks), and widget periods and week starts, are
+              stored locally. Catalog search, spending totals, and habit
+              calculations run on your device; none requires a BarTally account.
             </p>
             <p>
               Recorded timestamps are stored as UTC instants. History displays
@@ -121,9 +122,11 @@ export function PrivacyPage({
               receive information as described in the sections below.
             </p>
             <p>
-              If you contact the developer using the details in Google Play's
-              App support section, the developer receives the information you
-              include in that message.
+              If you email support or contact the developer through Google
+              Play’s App support details, the developer receives your email
+              address and the information you choose to include, including
+              attachments. You do not need to send your drink history or a
+              backup file to report a bug.
             </p>
             <p>
               Public Google Play reviews can be read by the developer and other
@@ -234,11 +237,12 @@ export function PrivacyPage({
             <p>
               Widgets are optional and free. Quick-log widgets display the
               selected favorite and can show its serving, saved default price,
-              and saved place. Counter widgets show drink or standard-drink
-              totals for a chosen calendar or rolling period, with Sunday or
-              Monday as the start of a calendar week. A brief logging
-              confirmation can show the place and rolling 24-hour standard-drink
-              total. Anyone who can view your home screen can see this
+              and saved place. Counter widgets show drinks or alcohol in grams,
+              milliliters of pure alcohol, or US standard drinks for a chosen
+              calendar or rolling period, with Sunday or Monday as the start of
+              a calendar week. Quick-log widgets show a brief saved count
+              directly on the widget and, when space allows, a rolling 24-hour
+              alcohol total. Anyone who can view your home screen can see this
               information. Widget configuration and pending action state stay in
               private app storage and are excluded from app backup.
             </p>
@@ -257,6 +261,33 @@ export function PrivacyPage({
             aria-labelledby="privacy-backup-title"
           >
             <h2 id="privacy-backup-title">07. Backup and transfer</h2>
+            <p>
+              Under <strong>More options → Backup &amp; restore</strong>, you
+              can export a JSON file containing drink history snapshots, custom
+              drinks, favorites with their named prices and saved defaults, and
+              saved places. The file can include times, counts, serving sizes,
+              nutrition, prices and currencies, notes, and legacy location
+              fields. The built-in catalog, app preferences, widget state, and
+              ad-removal receipt are excluded from this file.
+            </p>
+            <p>
+              You choose the destination through Android’s file picker. Backup
+              files contain readable personal data and are not encrypted by
+              BarTally. If you choose a cloud-storage provider, that provider
+              handles the file under its own settings and policies. BarTally
+              does not automatically upload or sync backups, and the developer
+              does not receive them unless you choose to send a copy.
+            </p>
+            <p>
+              Restoring starts with a preview and requires your confirmation.
+              Missing records are added; current records are kept when their IDs
+              match. The exception is an untouched built-in starter favorite,
+              which can be restored from the backup. Favorites you have edited
+              remain protected. Restoring the same file again does not duplicate
+              matching records. A backup can restore records you previously
+              deleted from the app. Delete exported copies separately from the
+              location you chose when they are no longer needed.
+            </p>
             <p>
               Android may back up or transfer BarTally’s database according to
               your device, operating system, and account settings. This can
@@ -286,10 +317,11 @@ export function PrivacyPage({
               in Android Settings and clear its storage.
             </p>
             <p>
-              System backups may remain separately and may restore data on a
-              later installation. Manage or delete those copies through Android
-              or your backup provider. Clearing app storage does not erase
-              records held separately by Google for ads or payments.
+              Exported JSON files and system backups remain separately and may
+              restore data on a later installation. Delete exported files from
+              their saved location. Manage or delete those copies through
+              Android or your backup provider. Clearing app storage does not
+              erase records held separately by Google for ads or payments.
             </p>
           </section>
 
@@ -356,8 +388,30 @@ export function PrivacyPage({
                 Developer: <strong>{name}</strong>
               </p>
             )}
+            {email ? (
+              <p>
+                For bug reports, privacy questions, or support, email{" "}
+                <a href={`mailto:${email}`}>{email}</a>. Include your app
+                version, Android version, and what happened. Please leave drink
+                history and backup files out of your first message.
+              </p>
+            ) : listing ? (
+              <p>
+                For privacy questions or requests, open the{" "}
+                <a href={listing}>BarTally listing</a> in the Google Play Store
+                and select <strong>App support</strong> to find the developer's
+                contact details. Please use that private contact route for
+                personal information.
+              </p>
+            ) : (
+              <p>
+                A private contact route for privacy questions is not available
+                yet. It will be listed under <strong>App support</strong> on
+                Google Play before the app launches.
+              </p>
+            )}
             <p>
-              Found a bug?{" "}
+              You can also share general feedback on Google Play.{" "}
               {listing ? (
                 <>
                   Open <a href={listing}>BarTally on Google Play</a> and leave a
@@ -375,26 +429,6 @@ export function PrivacyPage({
               )}{" "}
               Reviews are public, so please leave out personal information.
             </p>
-            {email ? (
-              <p>
-                For privacy questions or support, email{" "}
-                <a href={`mailto:${email}`}>{email}</a>.
-              </p>
-            ) : listing ? (
-              <p>
-                For privacy questions or requests, open the{" "}
-                <a href={listing}>BarTally listing</a> in the Google Play Store
-                and select <strong>App support</strong> to find the developer's
-                contact details. Please use that private contact route for
-                personal information.
-              </p>
-            ) : (
-              <p>
-                A private contact route for privacy questions is not available
-                yet. It will be listed under <strong>App support</strong> on
-                Google Play before the app launches.
-              </p>
-            )}
           </section>
         </div>
       </div>

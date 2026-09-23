@@ -66,7 +66,11 @@ for (const route of routes) {
         const image = element as HTMLImageElement;
         return image.complete && image.naturalWidth > 0;
       })).toBe(true);
-      expect(await image.getAttribute('alt')).toBeTruthy();
+      if (await image.getAttribute('aria-hidden') === 'true') {
+        expect(await image.getAttribute('alt')).toBe('');
+      } else {
+        expect(await image.getAttribute('alt')).toBeTruthy();
+      }
       expect((await image.getAttribute('src'))?.startsWith(imagePath(baseURL, ''))).toBe(true);
     }
     const fontsReady = await page.evaluate(async () => {
@@ -147,7 +151,7 @@ test('app preview supports keyboard navigation and both regional screenshot sets
   await expect(favorite).toBeFocused();
   await page.keyboard.press('ArrowLeft');
   await expect(tabs.getByRole('tab', { name: /Drink history/ })).toBeFocused();
-  await tabs.getByRole('tab', { name: /Save your order/ }).click();
+  await tabs.getByRole('tab', { name: /Log several drinks/ }).click();
   await expect(panel.locator('img')).toHaveAttribute('src', imagePath(baseURL, 'metric/03-serving.png'));
   await units.getByRole('button', { name: 'US fl oz' }).click();
   await expect(panel.locator('img')).toHaveAttribute('src', imagePath(baseURL, 'us/03-serving.png'));
@@ -243,16 +247,17 @@ test('privacy contents links reach every section and explain bug reports and pri
     await expect(contact).toContainText('send private testing feedback');
     await expect(contact).toContainText('After the public release, reviews will be available');
   }
+  const hasSupportEmail = await contact.locator('a[href^="mailto:"]').count() > 0;
   await page.goto('./');
   const bugReport = page.getByRole('contentinfo').getByRole('link', { name: 'Report a bug', exact: true });
-  const feedbackPath = hasPublicListing ? 'privacy/#privacy-contact' : 'beta/#feedback';
+  const feedbackPath = hasSupportEmail || hasPublicListing ? 'privacy/#privacy-contact' : 'beta/#feedback';
   const feedbackURL = siteURL(baseURL, feedbackPath);
   await expect(bugReport).toHaveAttribute('href', `${feedbackURL.pathname}${feedbackURL.hash}`);
   await bugReport.click();
   await expect(page).toHaveURL(feedbackURL.href);
   const feedback = page.locator(feedbackURL.hash);
   await expect(feedback.getByRole('heading', { level: 2 })).toBeInViewport();
-  if (!hasPublicListing) {
+  if (!hasPublicListing && !hasSupportEmail) {
     await expect(feedback).toContainText('private feedback option for testers');
     await expect(feedback).toContainText('Leave personal details and real drink history out of group posts');
   }

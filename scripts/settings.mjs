@@ -25,7 +25,7 @@ export function settings() {
   }
   const developer =
     (env.VITE_DEVELOPER_NAME || "").trim() || defaults.developerName;
-  const email = (env.VITE_SUPPORT_EMAIL || "").trim();
+  const email = (env.VITE_SUPPORT_EMAIL || "").trim() || defaults.supportEmail;
   if (email && !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email)) {
     throw new Error(
       "VITE_SUPPORT_EMAIL must be a valid email address when provided.",

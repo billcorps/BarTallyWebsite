@@ -120,14 +120,14 @@ function Brand({ footer = false }: { footer?: boolean }) {
       href={href("/")}
       aria-label="BarTally home"
     >
-      <svg viewBox="0 0 36 36" fill="none" aria-hidden="true">
-        <path
-          d="M8 8v20M15 8v20M22 8v20M29 8v20M4 25 33 12"
-          stroke="currentColor"
-          strokeWidth="2.7"
-          strokeLinecap="round"
-        />
-      </svg>
+      <img
+        className="brand-icon"
+        src={asset("app-icon.png")}
+        width="40"
+        height="40"
+        alt=""
+        aria-hidden="true"
+      />
       <span>
         BarTally<span className="brand-dot">.</span>
       </span>
@@ -235,7 +235,7 @@ function Footer() {
           <a
             className="text-link"
             href={
-              siteConfig.playStoreUrl
+              siteConfig.supportEmail || siteConfig.playStoreUrl
                 ? href("/privacy/#privacy-contact")
                 : href("/beta/#feedback")
             }
@@ -537,17 +537,18 @@ function HomePage() {
       <section className="principles-section section-shell">
         <span className="eyebrow">LOCAL DATA. FREE FEATURES.</span>
         <h2>
-          Your data stays
+          Log locally.
           <br />
-          <em>on your device.</em>
+          <em>Keep a backup.</em>
         </h2>
         <div className="principles-grid">
           <div>
             <Icon name="shield" size={28} />
             <h3>No account. Your device.</h3>
             <p>
-              Your journal and insights live on your device. Google services for
-              ads and purchases have their own data practices.
+              Logging and insights run on your device. Export a backup when you
+              want a separate copy. Google services for ads and purchases have
+              their own data practices.
             </p>
             <a href={href("/privacy/")} className="text-link">
               Read the privacy policy
@@ -592,11 +593,11 @@ const appViews = [
   },
   {
     id: "serving",
-    label: "Save your order",
+    label: "Log several drinks",
     image: "03-serving.png",
-    title: "Save the serving, pub, and prices.",
-    text: "Choose your usual pour and optional place, then add any named prices below. Set a default for quick logs and widgets. Saving a favorite does not log a drink.",
-    alt: "Favorite editor showing a serving, The Corner Bar as the saved place, and the introduction to saved prices.",
+    title: "Choose the pour. Set the quantity.",
+    text: "Log one drink or several from Search. Choose the serving and quantity, with an optional price and saved place. Nutrition and price are per drink, so you can check the details before adding them.",
+    alt: "Search logging dialog with three drinks, a selected serving, nutrition per drink, optional price and The Corner Bar, and a Log 3 drinks button.",
   },
   {
     id: "spending",
@@ -698,7 +699,8 @@ function AppPreview() {
         <UnitSwitch metric={metric} onChange={setMetric} />
         <p className="small-print">
           The app starts with US fluid ounces. Switch to milliliters anytime in
-          Serving units.
+          More options → Units. Alcohol totals can use grams, milliliters of
+          pure alcohol, or US standard drinks.
         </p>
       </div>
       <div
@@ -735,7 +737,7 @@ const questions = [
   ],
   [
     "Can I use milliliters instead of ounces?",
-    "Yes. US fluid ounces are the default. Open More options → Serving units to choose milliliters. The preference applies across the app and widgets without changing recorded amounts or nutrition.",
+    "Yes. US fluid ounces are the default. Open More options → Units to choose milliliters. The preference applies across the app and widgets without changing recorded amounts or nutrition.",
   ],
   [
     "How does spending tracking work?",
@@ -758,6 +760,14 @@ const questions = [
     "Yes. Open History and choose Add past drinks. Favorites appear first for quick selection, or search the full catalog and your custom drinks. Enter the number of drinks, serving, date, time, and optional price, place, or notes. For example, record four of the same draft from last night in one entry. History displays dates and times in your current device time zone.",
   ],
   [
+    "Can I log several of the same drink at once?",
+    "Yes. Find a drink in Search, choose its serving, and set the quantity with the plus and minus controls or quantity field. The log button shows how many drinks will be added. Calories, alcohol, and spending use that quantity. History also supports quantities for past visits.",
+  ],
+  [
+    "Can I back up my history or move it to another phone?",
+    "Yes. Open More options → Backup & restore to export a JSON backup using Android’s file picker. It includes history, custom drinks, favorites with their prices and places, and your saved places. Choose a backup to preview what will be restored, then select Restore backup. Missing records are added and existing records are kept when IDs match, except that untouched starter favorites can be restored from the backup. Restoring the same file again does not duplicate records. Settings, widgets, the built-in catalog, and ad-removal receipts are not included. Keep the file somewhere private: it contains readable personal data and is not encrypted by BarTally.",
+  ],
+  [
     "How do I change a widget?",
     "Long-press the widget and choose the launcher’s edit or reconfigure option where supported. Otherwise, remove it and add it again to choose its settings. Edit a favorite in BarTally to change the serving, default price, or place used by its quick-log widgets.",
   ],
@@ -771,7 +781,7 @@ const questions = [
   ],
   [
     "Are the calorie and alcohol values exact?",
-    "Published values are distinguished from generic estimates and recipe assumptions. Your actual drink may differ by product, recipe, and pour. Alcohol totals use US standard drinks, each containing 14 grams of alcohol; they are not a blood alcohol or driving-safety calculation.",
+    "Published values are distinguished from generic estimates and recipe assumptions. Your actual drink may differ by product, recipe, and pour. Alcohol totals default to grams of pure alcohol. In Units, choose grams, milliliters of pure alcohol, or US standard drinks (14 grams each). These are not blood alcohol or driving-safety calculations.",
   ],
 ];
 
@@ -811,7 +821,7 @@ function AppPage() {
             ],
             [
               "Save the entry",
-              "Log one drink or enter a quantity for a past visit. Choose its date and time in History, and edit missing details later.",
+              "Log one drink or set a quantity from Search. For a past visit, choose the quantity, date, and time in History. Edit missing details later.",
             ],
           ].map(([title, text], index) => (
             <article key={title}>
@@ -886,7 +896,7 @@ function AppPage() {
                 <p>16 US fl oz · USD 6.00</p>
                 <span className="widget-demo-count">The Corner Bar</span>
                 <span className="widget-quick-total">
-                  1.8 US std · Last 24h
+                  25.2 g alcohol · Last 24h
                 </span>
               </div>
               <div className="widget-demo-action">
@@ -895,11 +905,11 @@ function AppPage() {
             </div>
             <div
               className="widget-counter-demo"
-              aria-label="Illustrative counter showing 8.4 US standard drinks this week"
+              aria-label="Illustrative counter showing 117.6 grams of pure alcohol this week"
             >
               <span>This week</span>
-              <strong>8.4</strong>
-              <span>US standard drinks</span>
+              <strong>117.6</strong>
+              <span>grams of alcohol</span>
               <small>Week starts Monday</small>
             </div>
             <span className="demo-caption">
@@ -916,8 +926,10 @@ function AppPage() {
             <p>
               Add a free home-screen widget for a favorite drink. Tap +1 to log
               its saved serving, default price, and place without opening the
-              full app. A brief confirmation shows your updated 24-hour
-              standard-drink count.
+              full app. Each quick tap logs another drink. The widget briefly
+              shows Added 1, Added 2, and so on, then returns to your saved
+              details. When space allows, it also shows your rolling 24-hour
+              alcohol total.
             </p>
             <ul className="check-list">
               <li>
@@ -933,8 +945,9 @@ function AppPage() {
             </ul>
             <p>
               Use a counter for Today, This week, This month, or a rolling 24
-              hours, 7 days, or 30 days. Choose logged drinks or US standard
-              drinks, and a Sunday or Monday week start.
+              hours, 7 days, or 30 days. Choose logged drinks, grams or
+              milliliters of pure alcohol, or US standard drinks, and a Sunday
+              or Monday week start.
             </p>
             <p className="small-print">
               Widgets use saved favorite defaults. Temporary serving and price
@@ -984,6 +997,53 @@ function AppPage() {
             <span>Just the drink</span>
             <small>No location</small>
           </div>
+        </div>
+      </section>
+      <section id="backup" className="places-section section-shell">
+        <div>
+          <span className="eyebrow">05 / KEEP YOUR HISTORY</span>
+          <h2>
+            Your records.
+            <br />
+            <em>Your backup.</em>
+          </h2>
+          <p>
+            Export your drink history, custom drinks, favorites, and saved
+            places to a JSON file. Choose where it goes using Android’s file
+            picker.
+          </p>
+          <p>
+            Moving phones or recovering a saved copy? Preview the file, then
+            choose Restore backup. Missing records are added. Your existing
+            records are kept; untouched starter favorites can be restored from
+            your backup. Restoring the same file again does not duplicate
+            records.
+          </p>
+          <a className="text-link" href={href("/privacy/#privacy-backup")}>
+            What a backup contains <Icon name="arrow" size={18} />
+          </a>
+        </div>
+        <div>
+          <h3>More options → Backup &amp; restore</h3>
+          <ul className="check-list">
+            <li>
+              <Icon name="check" /> History keeps its recorded times, servings,
+              prices, and places
+            </li>
+            <li>
+              <Icon name="check" /> Favorites keep their named prices and saved
+              defaults
+            </li>
+            <li>
+              <Icon name="check" /> Existing history and edited favorites stay
+              in place
+            </li>
+          </ul>
+          <p className="small-print">
+            Backups contain readable personal data. Store them somewhere
+            private. There is no automatic BarTally cloud sync; settings,
+            widgets, and ad-removal purchases are separate.
+          </p>
         </div>
       </section>
       <section id="questions" className="faq-section section-shell">
@@ -1280,8 +1340,10 @@ function InsightsPage() {
             </div>
             <UnitSwitch metric={metric} onChange={setMetric} />
             <p className="small-print">
-              Volume units change the display, not the data. Alcohol totals use
-              US standard drinks (14 g of alcohol).
+              Serving and alcohol units change the display, not your saved
+              history. Alcohol totals default to grams of pure alcohol;
+              milliliters and US standard drinks (14 g each) are also available
+              in Units.
             </p>
           </div>
           <div className="nutrition-phone">

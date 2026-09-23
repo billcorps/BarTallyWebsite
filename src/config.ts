@@ -5,7 +5,8 @@ export const siteConfig = {
   developerName:
     (import.meta.env.VITE_DEVELOPER_NAME ?? "").trim() ||
     defaults.developerName,
-  supportEmail: (import.meta.env.VITE_SUPPORT_EMAIL ?? "").trim(),
+  supportEmail:
+    (import.meta.env.VITE_SUPPORT_EMAIL ?? "").trim() || defaults.supportEmail,
   playStoreUrl: (import.meta.env.VITE_PLAY_STORE_URL ?? "").trim(),
 };
 

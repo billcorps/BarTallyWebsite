@@ -19,7 +19,7 @@
   margin-top: 12px;
 }
 .beta-commitment {
-  background: #e8eddf;
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 28px;
   padding: 36px;
@@ -41,7 +41,7 @@
   gap: 12px;
   margin-top: 26px;
   padding-top: 24px;
-  border-top: 1px solid #c5cebc;
+  border-top: 1px solid var(--line);
   font-size: 13px;
   line-height: 1.6;
 }
@@ -73,7 +73,7 @@
 .beta-step-number {
   font-family: var(--serif);
   font-size: 30px;
-  color: #57725a;
+  color: var(--brand);
   align-self: start;
 }
 .beta-step-copy p {
@@ -88,7 +88,7 @@
   margin-top: 20px;
 }
 .beta-feedback {
-  background: #e8eddf;
+  background: var(--surface);
   padding-block: 70px;
 }
 .beta-feedback-inner {
@@ -103,7 +103,7 @@
 }
 .beta-feedback-card {
   padding: 34px;
-  border: 1px solid #c5cebc;
+  border: 1px solid var(--line);
   background: var(--paper);
   border-radius: 24px;
 }
