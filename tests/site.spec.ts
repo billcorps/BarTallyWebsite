@@ -211,7 +211,7 @@ test('privacy contents links reach every section and explain bug reports and pri
   await page.goto('privacy/');
   const contents = page.getByRole('navigation', { name: 'Privacy policy contents' });
   const links = await contents.getByRole('link').all();
-  expect(links.length).toBe(11);
+  expect(links.length).toBe(12);
   for (const link of links) {
     const anchor = await link.getAttribute('href');
     expect(anchor).toMatch(/^#privacy-/);
