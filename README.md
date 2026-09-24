@@ -86,13 +86,13 @@ Implementation follows the official [Vite static deployment guide](https://vite.
 ## Refreshing app screenshots
 
 The app and screenshot tools remain in the [BarTally repository](https://github.com/billcorps/BarTally). Copy reviewed US screenshots from its `product_materials/regions/us/` into this repository's `public/images/us/`, and the international metric set into `public/images/metric/`. The website has no build-time dependency on the Android checkout.
-The header, footer and favicon all use `public/images/app-icon.png`: the shared flat navy icon with mint champagne-flute and beer-mug shapes. Colors come from `product_materials/palette.json` in the Android repository. Edit that configuration, then run this single command from the Android repository root:
+The header and footer use `public/images/app-icon.png`: the shared flat navy icon with mint champagne-flute and beer-mug shapes. Browser tabs use a dedicated small-size two-drink favicon with a rounded navy tile, transparent corners, and enlarged, simplified mint shapes. The site provides `public/images/favicon.svg` plus PNG exports rendered directly at 16 and 32 pixels. Colors come from `product_materials/palette.json` in the Android repository. Edit that configuration, then run this single command from the Android repository root:
 
 ```powershell
 node tools/generate-palette.mjs --assets --website ../BarTallyWebsite
 ```
 
-The command regenerates app colors, icon artwork, this site's `src/palette.css` and browser theme color, then copies the generated app icon and social card into `public/images`. It requires the installed Playwright/Chromium and Python/Pillow tooling and works offline. No separate icon-generation or image-copy command is needed for branding. Keep geometry edits in `product_materials/icon.svg`; the website does not independently redraw the icon. The wordmark link already names BarTally, so its accompanying icon is decorative for screen readers. CSS rounds only the website presentation tile; the source Play icon remains a full square.
+The command regenerates app colors, icon and favicon artwork, this site's `src/palette.css` and browser theme color, then copies the generated app icon, favicon SVG and PNG exports, and social card into `public/images`. It requires the installed Playwright/Chromium and Python/Pillow tooling and works offline. No separate icon-generation or image-copy command is needed for branding. Keep app-icon geometry edits in `product_materials/icon.svg` and favicon geometry edits in `product_materials/favicon.svg`; the website uses the generated assets. The wordmark link already names BarTally, so its accompanying icon is decorative for screen readers. CSS rounds the header and footer presentation tile; the source Play icon remains a full square, while the favicon artwork has its own rounded tile and transparent corners.
 
 ## Closed beta enrollment
 
