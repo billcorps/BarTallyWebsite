@@ -11,7 +11,7 @@ export const pages = [
     path: "/app/",
     title: "Meet the app — BarTally",
     description:
-      "Search 8,200+ drinks offline. Save servings, places, and prices. Log multiple drinks, track spending, use widgets, and back up your history to JSON.",
+      "Search 8,200+ drinks offline. Save servings, places, and prices. Log one or several drinks now or earlier, track spending, use widgets, and export JSON backups.",
   },
   {
     id: "insights",

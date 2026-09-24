@@ -456,7 +456,7 @@ function HomePage() {
               icon: "glass" as const,
               number: "01",
               title: "Log a drink in seconds.",
-              text: "Save your usual serving, pub, and prices. Choose the pour and price that apply, then tap +1 for each drink.",
+              text: "Save your usual serving, place, and prices. Log one or several drinks now or earlier, or use +1 now for a quick entry.",
               link: "/app/#favorites",
               label: "See drink logging",
             },
@@ -580,24 +580,24 @@ const appViews = [
     label: "Your favorites",
     image: "01-home.png",
     title: "Your regular drink. The right price.",
-    text: "Filter favorites by saved place, choose a serving and saved price on Home, then tap +1. Each drink uses the place saved with that favorite.",
-    alt: "Favorites filtered by pub with a serving selector, selected Happy hour price, and quick logging.",
+    text: "Filter favorites by saved place and choose a serving and price. Tap Log drink to set the quantity and time, or +1 now for an immediate entry. Each log starts with the favorite’s saved place.",
+    alt: "Favorites filtered by place with serving and price selectors, Log drink, and +1 now actions.",
   },
   {
     id: "search",
     label: "Find a drink",
     image: "02-search.png",
     title: "Find a drink or add your own.",
-    text: "Search 8,200+ catalog entries, including American craft beers, common drinks, generic styles, and house cocktail recipes. ABV and calories are shown where known; missing values stay marked.",
+    text: "Search 8,200+ drinks, including craft beer, hard seltzers, canned cocktails, and common styles and recipes. Find High Noon, Two Robbers, Suntory -196, Surfside, and Stateside. ABV and calories are shown where known; missing values stay marked.",
     alt: "Offline drink catalog with common beers and available serving and nutrition details.",
   },
   {
     id: "serving",
     label: "Log several drinks",
     image: "03-serving.png",
-    title: "Choose the pour. Set the quantity.",
-    text: "Log one drink or several from Search. Choose the serving and quantity, with an optional price and saved place. Nutrition and price are per drink, so you can check the details before adding them.",
-    alt: "Search logging dialog with three drinks, a selected serving, nutrition per drink, optional price and The Corner Bar, and a Log 3 drinks button.",
+    title: "Choose the pour, quantity, and time.",
+    text: "In Search or Favorites, tap Log drink and choose how many. Keep Now or choose an earlier date and time. Add an optional price and place for this entry; nutrition and price remain per drink.",
+    alt: "Search logging dialog with three drinks, Now and custom date/time options, serving controls, and a Log 3 drinks button.",
   },
   {
     id: "spending",
@@ -612,8 +612,8 @@ const appViews = [
     label: "Drink history",
     image: "04-history.png",
     title: "Add or edit past drinks.",
-    text: "Add past drinks from your favorites or search the catalog, including your custom drinks. Set the quantity, serving, date, time, price, and place. Times display in your current local time zone.",
-    alt: "Drink history with serving details, recorded prices, and nutrition values.",
+    text: "Add past drinks from favorites or search the catalog, including your custom drinks. Set the quantity, serving, date, time, price, and place. Times use your phone’s local time zone and 12- or 24-hour clock setting.",
+    alt: "Drink history with drink counts, recorded prices, nutrition values, and local timestamps.",
   },
 ] as const;
 
@@ -745,11 +745,11 @@ const questions = [
   ],
   [
     "What if my drink is not in the catalog?",
-    "Choose Add custom drink on Search. Enter a serving, ABV, and calories when you know them, or leave those details unknown. Saving makes the drink searchable; choose a serving to log it, or use Add to favorites separately. The built-in catalog is separate from your custom drinks, favorites, and history. App updates can add or correct catalog entries without rewriting what you previously logged.",
+    "Choose Add custom drink on Search. Enter a serving, ABV, and calories when you know them, or leave those details unknown. Saving makes the drink searchable; choose Log drink to record it, or use Add to favorites separately. The built-in catalog is separate from your custom drinks, favorites, and history. App updates can add or correct catalog entries without rewriting what you previously logged.",
   ],
   [
     "Can I save different prices for the same drink?",
-    "Yes. Add any named prices to a favorite: Regular, Happy hour, Game day, or your own labels. Enter the final amount for each option, then select the one that applies on Home. That choice is reused for repeat +1 taps. Prices do not switch automatically with times or game schedules, and discounts do not stack automatically. A widget uses the favorite's saved serving, default price, and place.",
+    "Yes. Add any named prices to a favorite: Regular, Happy hour, Game day, or your own labels. Enter the final amount for each option, then select the one that applies on Home. That choice is reused for repeat +1 now taps. Prices do not switch automatically with times or game schedules, and discounts do not stack automatically. A widget uses the favorite's saved serving, default price, and place.",
   ],
   [
     "Can I keep different favorites for different pubs?",
@@ -757,11 +757,11 @@ const questions = [
   ],
   [
     "Can I log drinks from last night?",
-    "Yes. Open History and choose Add past drinks. Favorites appear first for quick selection, or search the full catalog and your custom drinks. Enter the number of drinks, serving, date, time, and optional price, place, or notes. For example, record four of the same draft from last night in one entry. History displays dates and times in your current device time zone.",
+    "Yes. In Search or Favorites, tap Log drink, set the number of drinks, and choose an earlier date and time instead of Now. History also offers Add past drinks, with favorites first and catalog or custom drinks available through search. For example, record four of the same draft from last night in one entry. Times use your phone’s local time zone and 12- or 24-hour clock setting.",
   ],
   [
     "Can I log several of the same drink at once?",
-    "Yes. Find a drink in Search, choose its serving, and set the quantity with the plus and minus controls or quantity field. The log button shows how many drinks will be added. Calories, alcohol, and spending use that quantity. History also supports quantities for past visits.",
+    "Yes. Tap Log drink in Search or Favorites, then use the plus and minus controls or type a quantity. Keep Now or choose an earlier date and time. The log button shows how many drinks will be added. Calories, alcohol, and spending use that quantity. Favorites also offers +1 now for immediate logging, and History supports quantities for past visits.",
   ],
   [
     "Can I back up my history or move it to another phone?",
@@ -813,7 +813,7 @@ function AppPage() {
           {[
             [
               "Find your drink",
-              "Search 8,200+ catalog entries or create a custom drink. Log it now, save a favorite for next time, or add a past entry from History.",
+              "Search 8,200+ catalog entries or create a custom drink. Save a favorite to reuse its serving, place, and prices next time.",
             ],
             [
               "Set serving and price",
@@ -821,7 +821,7 @@ function AppPage() {
             ],
             [
               "Save the entry",
-              "Log one drink or set a quantity from Search. For a past visit, choose the quantity, date, and time in History. Edit missing details later.",
+              "Tap Log drink in Search or Favorites. Set the quantity, keep Now or choose an earlier date and time, then save. History also offers Add past drinks.",
             ],
           ].map(([title, text], index) => (
             <article key={title}>
@@ -846,10 +846,11 @@ function AppPage() {
             amount.
           </p>
           <p>
-            Choose a serving and price on Home, then tap +1 for each drink.
-            Switch between a 12 and 16 US fl oz pour without editing your
-            favorite. Filter Home by saved place to find your drinks there. Past
-            entries keep the details you actually logged.
+            Choose a serving and price on Home. Tap Log drink to change the
+            quantity and time, or +1 now to log immediately. Switch between a 12
+            and 16 US fl oz pour without editing your favorite. Filter Home by
+            saved place to find your drinks there. Past entries keep the details
+            you actually logged.
           </p>
           <a className="text-link" href="#preview">
             See saved favorites <Icon name="arrow" size={18} />
@@ -1208,7 +1209,8 @@ function InsightsPage() {
           Start your week on Sunday or Monday. Calendar days, weeks, and months
           follow your device’s local time zone. The 7-, 30-, and 90-day views
           include today and the preceding calendar dates; counter widgets also
-          offer rolling periods, such as the last 24 hours.
+          offer rolling periods, such as the last 24 hours. Time labels follow
+          your phone’s 12- or 24-hour clock setting.
         </p>
         <div className="insight-grid">
           {[
