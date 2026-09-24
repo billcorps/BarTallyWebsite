@@ -7,6 +7,7 @@ type PrivacyPageProps = {
 const sections = [
   ["privacy-data", "Your app data"],
   ["privacy-developer", "What the developer receives"],
+  ["privacy-local-ai", "Optional local AI"],
   ["privacy-location", "Optional places"],
   ["privacy-advertising", "Ads and your choices"],
   ["privacy-purchases", "Ad-removal purchases"],
@@ -35,11 +36,12 @@ export function PrivacyPage({
         <h1>Privacy policy.</h1>
         <p>
           Your drink journal and saved places are stored on your device.
-          Advertising, purchases, and website hosting involve other services.
-          Here is what each part uses, and the choices you have.
+          Advertising, purchases, Google AI services, and website hosting
+          involve other services. Here is what each part uses, and the choices
+          you have.
         </p>
         <p className="policy-date">
-          Last updated <time dateTime="2026-09-22">September 22, 2026</time>
+          Last updated <time dateTime="2026-09-24">September 24, 2026</time>
           {name ? <> · {name}</> : null}
         </p>
         {!contactReady && (
@@ -138,10 +140,73 @@ export function PrivacyPage({
 
           <section
             className="policy-section"
+            id="privacy-local-ai"
+            aria-labelledby="privacy-local-ai-title"
+          >
+            <h2 id="privacy-local-ai-title">03. Optional local AI</h2>
+            <p>
+              The next app update adds optional AI explanations in Metrics.
+              Calculated findings continue to work without AI. On{" "}
+              <a href="https://developers.google.com/ml-kit/genai#prompt_api_device_support">
+                supported phones
+              </a>
+              , you can request an explanation using Google's shared Gemini Nano
+              model through ML Kit. BarTally gives the local model a bounded
+              summary of calculated facts and data coverage, excluding raw drink
+              names, notes, place names, coordinates, and entry identifiers. The
+              prompt and generated text are processed on your device and are not
+              sent to Google servers or the developer. There is no cloud AI
+              fallback or AI service charge.
+            </p>
+            <p>
+              Metrics may check model availability when opened. AI controls
+              appear only when Android reports that its shared model is already
+              available; inference starts only when you request an explanation.
+              BarTally does not download models or ask you to install one. If
+              the model is absent, still being prepared by Android, or
+              unsupported, Metrics shows calculated findings without AI controls
+              or setup messages. Android independently manages its shared model
+              and updates; availability depends on your phone and Google's AI
+              services.
+            </p>
+            <p>
+              ML Kit and Android AI services may contact Google for models,
+              updates, and compatibility configuration. Google's SDK collects
+              service usage and diagnostic information, including device and app
+              details, identifiers, configured languages, API events and errors,
+              processing latency, and input/output sizes. This telemetry does
+              not include your prompt or generated text. See{" "}
+              <a href="https://developers.google.com/ml-kit/terms">
+                ML Kit terms and privacy
+              </a>
+              ,{" "}
+              <a href="https://developers.google.com/ml-kit/android-data-disclosure">
+                ML Kit Android data disclosure
+              </a>
+              , and{" "}
+              <a href="https://policies.google.com/privacy">
+                Google's Privacy Policy
+              </a>
+              .
+            </p>
+            <p>
+              BarTally holds only the current explanation in app memory. It is
+              not saved to the database or exported JSON backups. Changes to
+              history, the selected period, or relevant calendar settings clear
+              it. Leaving the active Metrics screen cancels an explanation in
+              progress. AI text can be wrong; calculated facts and supporting
+              entries remain available for checking. Explanations describe
+              recorded data and are not medical advice or an assessment of
+              drinking safety.
+            </p>
+          </section>
+
+          <section
+            className="policy-section"
             id="privacy-location"
             aria-labelledby="privacy-location-title"
           >
-            <h2 id="privacy-location-title">03. Optional places</h2>
+            <h2 id="privacy-location-title">04. Optional places</h2>
             <p>
               Add a place name when saving a favorite or logging a drink, then
               reuse it with other drinks. Place names are stored locally and
@@ -170,7 +235,7 @@ export function PrivacyPage({
             id="privacy-advertising"
             aria-labelledby="privacy-advertising-title"
           >
-            <h2 id="privacy-advertising-title">04. Ads and your choices</h2>
+            <h2 id="privacy-advertising-title">05. Ads and your choices</h2>
             <p>
               Google AdMob supplies in-app banner ads. Its SDK may collect and
               share IP addresses, device or advertising identifiers,
@@ -210,7 +275,7 @@ export function PrivacyPage({
             id="privacy-purchases"
             aria-labelledby="privacy-purchases-title"
           >
-            <h2 id="privacy-purchases-title">05. Ad-removal purchases</h2>
+            <h2 id="privacy-purchases-title">06. Ad-removal purchases</h2>
             <p>
               Google Play processes payment using your Play account and payment
               settings. BarTally does not receive or store your card details. It
@@ -233,7 +298,7 @@ export function PrivacyPage({
             id="privacy-widgets"
             aria-labelledby="privacy-widgets-title"
           >
-            <h2 id="privacy-widgets-title">06. Home-screen widgets</h2>
+            <h2 id="privacy-widgets-title">07. Home-screen widgets</h2>
             <p>
               Widgets are optional and free. Quick-log widgets display the
               selected favorite and can show its serving, saved default price,
@@ -260,7 +325,7 @@ export function PrivacyPage({
             id="privacy-backup"
             aria-labelledby="privacy-backup-title"
           >
-            <h2 id="privacy-backup-title">07. Backup and transfer</h2>
+            <h2 id="privacy-backup-title">08. Backup and transfer</h2>
             <p>
               Under <strong>More options → Backup &amp; restore</strong>, you
               can export a JSON file containing drink history snapshots, custom
@@ -309,7 +374,7 @@ export function PrivacyPage({
             id="privacy-deletion"
             aria-labelledby="privacy-deletion-title"
           >
-            <h2 id="privacy-deletion-title">08. Keeping and deleting data</h2>
+            <h2 id="privacy-deletion-title">09. Keeping and deleting data</h2>
             <p>
               Local data remains until you delete it, clear app storage, or
               uninstall BarTally. Delete individual drink entries from History.
@@ -321,7 +386,8 @@ export function PrivacyPage({
               restore data on a later installation. Delete exported files from
               their saved location. Manage or delete those copies through
               Android or your backup provider. Clearing app storage does not
-              erase records held separately by Google for ads or payments.
+              erase records held separately by Google for ads, AI service
+              diagnostics, or payments.
             </p>
           </section>
 
@@ -330,7 +396,7 @@ export function PrivacyPage({
             id="privacy-website"
             aria-labelledby="privacy-website-title"
           >
-            <h2 id="privacy-website-title">09. This website</h2>
+            <h2 id="privacy-website-title">10. This website</h2>
             <p>
               This is a static website hosted on GitHub Pages. We do not add
               analytics scripts, advertising, sign-up forms, or account features
@@ -365,7 +431,7 @@ export function PrivacyPage({
             id="privacy-audience"
             aria-labelledby="privacy-audience-title"
           >
-            <h2 id="privacy-audience-title">10. Audience and estimates</h2>
+            <h2 id="privacy-audience-title">11. Audience and estimates</h2>
             <p>
               BarTally is intended for adults tracking their own drinks.
               Nutrition and alcohol figures may be estimates; they are not
@@ -378,7 +444,7 @@ export function PrivacyPage({
             id="privacy-contact"
             aria-labelledby="privacy-contact-title"
           >
-            <h2 id="privacy-contact-title">11. Updates and contact</h2>
+            <h2 id="privacy-contact-title">12. Updates and contact</h2>
             <p>
               This policy will be updated if the app’s or website’s data
               practices change. The date above shows the most recent update.
