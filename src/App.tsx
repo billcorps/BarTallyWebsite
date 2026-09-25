@@ -430,7 +430,7 @@ function HomePage() {
             <Icon name="book" /> No account needed
           </span>
           <span>
-            <Icon name="offline" /> Offline logging & insights
+            <Icon name="offline" /> Offline logging & calculated insights
           </span>
           <span>
             <Icon name="grid" /> Every feature free
@@ -547,8 +547,8 @@ function HomePage() {
             <h3>No account. Your device.</h3>
             <p>
               Logging and insights run on your device. Export a backup when you
-              want a separate copy. Google services for ads and purchases have
-              their own data practices.
+              want a separate copy. Google services for ads, purchases, and
+              optional AI have their own data practices.
             </p>
             <a href={href("/privacy/")} className="text-link">
               Read the privacy policy
@@ -733,7 +733,7 @@ const questions = [
   ],
   [
     "Does it work without an internet connection?",
-    "Logging, the drink catalog, saved places, and insights work offline. Ads and Google Play purchase checks use internet services.",
+    "Logging, the drink catalog, saved places, and calculated insights work offline. Ads, Google Play purchase checks, and Google AI services' independent updates, configuration and diagnostics can use internet services.",
   ],
   [
     "Can I use milliliters instead of ounces?",
@@ -749,7 +749,7 @@ const questions = [
   ],
   [
     "Can I save different prices for the same drink?",
-    "Yes. Add any named prices to a favorite: Regular, Happy hour, Game day, or your own labels. Enter the final amount for each option, then select the one that applies on Home. That choice is reused for repeat +1 now taps. Prices do not switch automatically with times or game schedules, and discounts do not stack automatically. A widget uses the favorite's saved serving, default price, and place.",
+    "Yes. Save named prices to a favorite: Regular, Happy hour, Game day, or your own labels. Enter the final amount for each option, then select the one that applies on Home. That choice is reused for repeat +1 now taps. Prices do not switch automatically with times or game schedules, and discounts do not stack automatically. A widget uses the favorite's saved serving, default price, and place.",
   ],
   [
     "Can I keep different favorites for different pubs?",
@@ -1212,6 +1212,12 @@ function InsightsPage() {
           offer rolling periods, such as the last 24 hours. Time labels follow
           your phone’s 12- or 24-hour clock setting.
         </p>
+        <p className="calendar-explanation">
+          Period insights highlights changes in your recorded totals. Open a
+          finding to see the supporting entries and what the comparison
+          includes. Calculated findings work offline on every phone that runs
+          BarTally, with no AI model needed.
+        </p>
         <div className="insight-grid">
           {[
             [
@@ -1412,6 +1418,16 @@ function InsightsPage() {
           determine whether you can drive.
         </p>
       </aside>
+      <p className="section-shell">
+        <small>
+          Optional local AI explanations appear only on{" "}
+          <a href="https://developers.google.com/ml-kit/genai#prompt_api_device_support">
+            supported phones
+          </a>{" "}
+          with an already available model. BarTally never downloads models.{" "}
+          <a href={href("/privacy/#privacy-local-ai")}>Privacy details</a>.
+        </small>
+      </p>
       <ClosingNote />
     </>
   );
